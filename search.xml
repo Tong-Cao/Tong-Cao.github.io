@@ -1,3 +1,28 @@
 <?xml version="1.0" encoding="utf-8"?>
 <search>
+  <entry>
+    <title>服务器常用命令</title>
+    <url>/2023/04/30/test/</url>
+    <content><![CDATA[<h2 id="常用操作："><a href="#常用操作：" class="headerlink" title="常用操作："></a>常用操作：</h2><p><code>cd ..</code> 返回文件上一级</p>
+<p><code>rm -f filename</code> 删除文件</p>
+<p><code>mv file1 file2</code> 将文件一移动到文件二里</p>
+<p><code>cp file1 file2</code> 文件复制</p>
+<p><code>cp -r file1 file2</code> 文件夹复制（<code>../</code> 上一级文件夹）</p>
+<p><code>rz</code> 传文件到服务器或者直接拖动文件放进Xshell窗口</p>
+<p><code>sz filename</code> 从服务器下载文件到本地</p>
+<h2 id="vim使用："><a href="#vim使用：" class="headerlink" title="vim使用："></a>vim使用：</h2><p><code>vim filename</code></p>
+<p><strong>a</strong> 进入编辑模式</p>
+<p><strong>Esc</strong> 进入命令模式</p>
+<p><code>：wq</code>保存并退出</p>
+<h2 id="多GPU启动："><a href="#多GPU启动：" class="headerlink" title="多GPU启动："></a>多GPU启动：</h2><p><code>python -m torch.distributed.launch --nproc_per_node=4 GAN_face.py</code></p>
+<h2 id="退出并关闭python程序："><a href="#退出并关闭python程序：" class="headerlink" title="退出并关闭python程序："></a>退出并关闭python程序：</h2><p><strong>ctrl+c</strong> 退出</p>
+<p><code>ps -ef | grep python</code> 查看运行的python程序</p>
+<p><code>kill -9 ID</code> 关闭python进程</p>
+<h2 id="TensorBoard"><a href="#TensorBoard" class="headerlink" title="TensorBoard:"></a>TensorBoard:</h2><p><code>tensorboard --logdir=save --port=6006</code></p>
+]]></content>
+      <tags>
+        <tag>vim</tag>
+        <tag>linux</tag>
+      </tags>
+  </entry>
 </search>
