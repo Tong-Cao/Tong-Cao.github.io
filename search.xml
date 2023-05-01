@@ -16,10 +16,10 @@
                      data-src="/images/ssd1.png"
                       alt="ssd1"
                 ></p>
-<p>  <img  
+<p> <img  
                      lazyload
                      src="/images/loading.svg"
-                     data-src="/images/sd2.png"
+                     data-src="/images/ssd2.png"
                       alt="ssd2"
                 ></p>
 <h3 id="锚框的种类和偏移量预测："><a href="#锚框的种类和偏移量预测：" class="headerlink" title="锚框的种类和偏移量预测："></a>锚框的种类和偏移量预测：</h3><p>对于种类和偏移量的预测使用不同通道来表示：</p>
