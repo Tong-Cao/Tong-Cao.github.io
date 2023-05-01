@@ -1,8 +1,48 @@
 <?xml version="1.0" encoding="utf-8"?>
 <search>
   <entry>
+    <title>SSD目标检测</title>
+    <url>/2023/04/30/SSD%E7%9B%AE%E6%A0%87%E6%A3%80%E6%B5%8B/</url>
+    <content><![CDATA[<h2 id="数据集以及锚框的处理"><a href="#数据集以及锚框的处理" class="headerlink" title="数据集以及锚框的处理"></a>数据集以及锚框的处理</h2><h3 id="数据集："><a href="#数据集：" class="headerlink" title="数据集："></a>数据集：</h3><p><strong>图像：（batch_size , channel , height , width）</strong></p>
+<p><strong>bounding box: （batch_size , m , 5）</strong></p>
+<p><strong>m:</strong> 图像中可能出现的最多边界框的数目</p>
+<p><strong>5：</strong> 第一个数据为边界框对应的种类，对于少于m个边界框的图像，为了保持数据的统一，需要填充非法边界框，此时将其标为-1，并在后面计算中舍弃。剩余四个数据为边界框的左上角和右下角坐标。</p>
+<h3 id="在训练数据中标注锚框："><a href="#在训练数据中标注锚框：" class="headerlink" title="在训练数据中标注锚框："></a>在训练数据中标注锚框：</h3><p>在训练集中，我们将每个锚框视为一个训练样本。</p>
+<p>首先，在图片中使用不同的方法生成大量锚框。接着使用数据集中的真实边界框与锚框的交并比来为每一个锚框标记类别和偏移量。</p>
+<h2 id="SSD模型"><a href="#SSD模型" class="headerlink" title="SSD模型"></a>SSD模型</h2><h3 id="模型结构："><a href="#模型结构：" class="headerlink" title="模型结构："></a>模型结构：</h3><p>首先，使用基本网络块从图像中抽取特征，再逐步将其使用卷积和池化将特征图宽高减半，最终使用全局最大池将高度和宽度都降到1。</p>
+<h3 id="锚框构造："><a href="#锚框构造：" class="headerlink" title="锚框构造："></a>锚框构造：</h3><p>我们对每一个特征图的每一个像素生成不同宽高比的锚框。当特征图尺寸越小，映射到原图的锚框越大，这样我们可以搜素不同大小的物体。<br><img  
+                     lazyload
+                     src="/images/loading.svg"
+                     data-src="/..%5Cimages%5Cssd1.png"
+                      alt="ssd1"
+                ></p>
+<p>  <img  
+                     lazyload
+                     src="/images/loading.svg"
+                     data-src="/..%5Cimages%5Cssd2.png"
+                      alt="ssd2"
+                ></p>
+<h3 id="锚框的种类和偏移量预测："><a href="#锚框的种类和偏移量预测：" class="headerlink" title="锚框的种类和偏移量预测："></a>锚框的种类和偏移量预测：</h3><p>对于种类和偏移量的预测使用不同通道来表示：</p>
+<p>具体来说对于一个<strong>2x2</strong>的特征图假设每一个像素生成<strong>3</strong>个锚框，对于这个特征图一共有<strong>12</strong>个锚框。假设我们一共要预测<strong>3</strong>个种类，我们使用卷积生成 <strong>12x(3+1)<strong>（+1是指将锚框标注为背景） 个通道的</strong>2x2</strong>结果。例如第一个通道的第一个像素表示为特征图第一个像素生成的第一个锚框预测为第一个种类的概率。</p>
+<p>相同的我们对偏移量的预测一共生成<strong>12x4</strong>个通道来表示预测结果。</p>
+<p>&amp;nbsp;</p>
+<p><strong>最终网络如下所示：</strong></p>
+<p><img  
+                     lazyload
+                     src="/images/loading.svg"
+                     data-src="/..%5Cimages%5Cssd3.png"
+                      alt="ssd3"
+                ></p>
+<p>我们使用交叉熵损失函数来对每一个锚框的预测种类和真实值求loss，对于每一个锚框的偏移量使用L1范数损失来求其loss。</p>
+]]></content>
+      <tags>
+        <tag>深度学习</tag>
+        <tag>目标检测</tag>
+      </tags>
+  </entry>
+  <entry>
     <title>服务器常用命令</title>
-    <url>/2023/04/30/test/</url>
+    <url>/2023/04/30/%E6%9C%8D%E5%8A%A1%E5%99%A8%E5%B8%B8%E7%94%A8%E5%91%BD%E4%BB%A4/</url>
     <content><![CDATA[<h2 id="常用操作："><a href="#常用操作：" class="headerlink" title="常用操作："></a>常用操作：</h2><p><code>cd ..</code> 返回文件上一级</p>
 <p><code>rm -f filename</code> 删除文件</p>
 <p><code>mv file1 file2</code> 将文件一移动到文件二里</p>

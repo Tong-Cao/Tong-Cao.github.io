@@ -13,18 +13,28 @@
     
     <!--- Seo Part-->
     
-    <link rel="canonical" href="http://example.com/"/>
+    <link rel="canonical" href="http://example.com/2023/04/30/ssd目标检测/"/>
     <meta name="robots" content="index,follow">
     <meta name="googlebot" content="index,follow">
     <meta name="revisit-after" content="1 days">
     
-        <meta property="og:type" content="website">
-<meta property="og:title" content="Hexo">
-<meta property="og:url" content="http://example.com/index.html">
+        <meta name="description" content="数据集以及锚框的处理数据集：图像：（batch_size , channel , height , width） bounding box: （batch_size , m , 5） m: 图像中可能出现的最多边界框的数目 5： 第一个数据为边界框对应的种类，对于少于m个边界框的图像，为了保持数据的统一，需要填充非法边界框，此时将其标为-1，并在后面计算中舍弃。剩余四个数据为边界框的左上角和右下角">
+<meta property="og:type" content="article">
+<meta property="og:title" content="SSD目标检测">
+<meta property="og:url" content="http://example.com/2023/04/30/SSD%E7%9B%AE%E6%A0%87%E6%A3%80%E6%B5%8B/index.html">
 <meta property="og:site_name" content="Hexo">
+<meta property="og:description" content="数据集以及锚框的处理数据集：图像：（batch_size , channel , height , width） bounding box: （batch_size , m , 5） m: 图像中可能出现的最多边界框的数目 5： 第一个数据为边界框对应的种类，对于少于m个边界框的图像，为了保持数据的统一，需要填充非法边界框，此时将其标为-1，并在后面计算中舍弃。剩余四个数据为边界框的左上角和右下角">
 <meta property="og:locale" content="en_US">
+<meta property="og:image" content="http://example.com/..%5Cimages%5Cssd1.png">
+<meta property="og:image" content="http://example.com/..%5Cimages%5Cssd2.png">
+<meta property="og:image" content="http://example.com/..%5Cimages%5Cssd3.png">
+<meta property="article:published_time" content="2023-04-30T11:38:07.000Z">
+<meta property="article:modified_time" content="2023-05-01T05:56:30.473Z">
 <meta property="article:author" content="John Doe">
+<meta property="article:tag" content="深度学习">
+<meta property="article:tag" content="目标检测">
 <meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="http://example.com/..%5Cimages%5Cssd1.png">
     
     <!--- Icon Part-->
     <link rel="icon" type="image/png" href="/images/nezha.webp" sizes="192x192">
@@ -34,6 +44,8 @@
     <!--- Page Info-->
     
     <title>
+        
+            SSD目标检测 -
         
         Tong&#39;s Blog
     </title>
@@ -94,54 +106,19 @@
 <main class="page-container">
 
     
-        <div class="home-banner-container flex-center">
-    <div class="content flex-center">
-        <div class="description fade-in-down-animation" >
-          Tong's Blog 
-          
-            <p><i id="subtitle"></i></p>
-          
-        </div>
-        
-            <div class="social-contacts fade-in-down-animation">
-                
-                    
-                        
-                            <span class="social-contact-item github">
-                                <a target="_blank" href="https://github.com/Tong-Cao">
-                                    <i class="fa-brands fa-github"></i>
-                                </a>
-                            </span>
-                        
-                    
-                
-                    
-                
-                    
-                
-                    
-                
-                    
-                
-            </div>
-        
-    </div>
-</div>
-
-    
 
     <div class="main-content-container">
 
         <div class="main-content-header">
             <header class="navbar-container">
     
-    <div class="navbar-content has-home-banner">
+    <div class="navbar-content">
         <div class="left">
             
             <a class="logo-title" href="/">
-                <h1>
+                
                 Tong&#39;s Blog
-                </h1>
+                
             </a>
         </div>
 
@@ -153,7 +130,7 @@
                         
                             <li class="navbar-item">
                                 <!-- Menu -->
-                                <a class="active" 
+                                <a class="" 
                                     href="/"  >
                                     
                                         
@@ -185,7 +162,7 @@
             
                 
                     <li class="drawer-navbar-item flex-center">
-                        <a class="active" 
+                        <a class="" 
                         href="/"  >
                              
                                 
@@ -212,171 +189,245 @@
         <div class="main-content-body">
 
             
-                <div class="home-sidebar-container fade-in-down-animation">
-    <div class="sticky-container">
-        
-            
-            <div class="sidebar-content" >
-                <div class="avatar">
-                    <img src="/images/nezha.webp">
-                </div>
-                <div class="author">
-                    <div class="name">Tong</div>
-                    
-                        <div class="label"></div>
-                    
-                </div>
-                <div class="statistics">
-                    <a class="item" href="/tags">
-                        <div class="number">4</div>
-                        <div class="label">Tags</div>
-                    </a>
-                    <a class="item" href="/categories">
-                        <div class="number">0</div>
-                        <div class="label">Categories</div>
-                    </a>
-                    <a class="item" href="/archives">
-                        <div class="number">2</div>
-                        <div class="label">Posts</div>
-                    </a>
-                </div>
-            </div>
-        
-
-    </div>
-</div>
-
-            
 
             <div class="main-content">
 
                 
-                    <div class="home-content-container fade-in-down-animation">
-    <ul class="home-article-list">
-        
-            <li class="home-article-item">
+                    <div class="fade-in-down-animation">
+    <div class="post-page-container">
+        <div class="article-content-container">
 
-                
-
-                
-
-                <h3 class="home-article-title">
-                    <a href="/2023/04/30/SSD%E7%9B%AE%E6%A0%87%E6%A3%80%E6%B5%8B/">
-                        SSD目标检测
-                    </a>
-                </h3>
-
-                <div class="home-article-content markdown-body">
-                    
-                        数据集以及锚框的处理数据集：图像：（batch_size , channel , height , width）
-bounding box: （batch_size , m , 5）
-m: 图像中可能出现的最多边界框的数目
-5： 第一个数据为边界框对...
-                    
+            
+            
+                <div class="article-title">
+                    <h1 class="article-title-regular">SSD目标检测</h1>
                 </div>
+            
+                
+            
 
-                <div class="home-article-meta-info-container">
-    <div class="home-article-meta-info">
-        <span><i class="fa-solid fa-calendars"></i>&nbsp;
-            <span class="home-article-date" data-date="Sun Apr 30 2023 19:38:07 GMT+0800">
-                
-                    2023-04-30
-                
-            </span>
-        </span>
-        
-        
-            <span class="home-article-tag">
-                <i class="fa-solid fa-tags"></i>&nbsp;
-                <ul>
-                    
-                        <li>
+            
+                <div class="article-header">
+                    <div class="avatar">
+                        <img src="/images/nezha.webp">
+                    </div>
+                    <div class="info">
+                        <div class="author">
+                            <span class="name">Tong</span>
                             
-                            <a href="/tags/%E6%B7%B1%E5%BA%A6%E5%AD%A6%E4%B9%A0/">深度学习</a>&nbsp;
-                        </li>
-                    
-                        <li>
-                            | 
-                            <a href="/tags/%E7%9B%AE%E6%A0%87%E6%A3%80%E6%B5%8B/">目标检测</a>&nbsp;
-                        </li>
-                    
-                </ul>
-            </span>
-        
-    </div>
+                                <span class="author-label"></span>
+                            
+                        </div>
+                        <div class="meta-info">
+                            <div class="article-meta-info">
+    <span class="article-date article-meta-item">
+        <i class="fa-regular fa-pen-fancy"></i>&nbsp;
+        <span class="desktop">2023-04-30 19:38:07</span>
+        <span class="mobile">2023-04-30 19:38</span>
+        <span class="hover-info">Created</span>
+    </span>
+    
+        <span class="article-date article-meta-item">
+            <i class="fa-regular fa-wrench"></i>&nbsp;
+            <span class="desktop">2023-05-01 13:56:30</span>
+            <span class="mobile">2023-05-01 13:56</span>
+            <span class="hover-info">Updated</span>
+        </span>
+    
 
-    <a href="/2023/04/30/SSD%E7%9B%AE%E6%A0%87%E6%A3%80%E6%B5%8B/">Read more<span class="seo-reader-text">SSD目标检测</span>&nbsp;<i class="fa-solid fa-angle-right"></i></a>
+    
+    
+        <span class="article-tags article-meta-item">
+            <i class="fa-regular fa-tags"></i>&nbsp;
+            <ul>
+                
+                    <li>
+                        <a href="/tags/%E6%B7%B1%E5%BA%A6%E5%AD%A6%E4%B9%A0/">深度学习</a>&nbsp;
+                    </li>
+                
+                    <li>
+                        | <a href="/tags/%E7%9B%AE%E6%A0%87%E6%A3%80%E6%B5%8B/">目标检测</a>&nbsp;
+                    </li>
+                
+            </ul>
+        </span>
+    
+
+    
+    
+    
+    
+        <span class="article-pv article-meta-item">
+            <i class="fa-regular fa-eye"></i>&nbsp;<span id="busuanzi_value_page_pv"></span>
+        </span>
+    
 </div>
 
-            </li>
-        
-            <li class="home-article-item">
-
-                
-
-                
-
-                <h3 class="home-article-title">
-                    <a href="/2023/04/30/%E6%9C%8D%E5%8A%A1%E5%99%A8%E5%B8%B8%E7%94%A8%E5%91%BD%E4%BB%A4/">
-                        服务器常用命令
-                    </a>
-                </h3>
-
-                <div class="home-article-content markdown-body">
-                    
-                        常用操作：cd .. 返回文件上一级
-rm -f filename 删除文件
-mv file1 file2 将文件一移动到文件二里
-cp file1 file2 文件复制
-cp -r file1 file2 文件夹复制（../ 上一级文件夹）
-rz ...
-                    
+                        </div>
+                    </div>
                 </div>
+            
 
-                <div class="home-article-meta-info-container">
-    <div class="home-article-meta-info">
-        <span><i class="fa-solid fa-calendars"></i>&nbsp;
-            <span class="home-article-date" data-date="Sun Apr 30 2023 19:38:07 GMT+0800">
-                
-                    2023-04-30
-                
-            </span>
-        </span>
-        
-        
-            <span class="home-article-tag">
-                <i class="fa-solid fa-tags"></i>&nbsp;
-                <ul>
-                    
-                        <li>
-                            
-                            <a href="/tags/vim/">vim</a>&nbsp;
-                        </li>
-                    
-                        <li>
-                            | 
-                            <a href="/tags/linux/">linux</a>&nbsp;
-                        </li>
-                    
-                </ul>
-            </span>
-        
-    </div>
+            <div class="article-content markdown-body">
+                <h2 id="数据集以及锚框的处理"><a href="#数据集以及锚框的处理" class="headerlink" title="数据集以及锚框的处理"></a>数据集以及锚框的处理</h2><h3 id="数据集："><a href="#数据集：" class="headerlink" title="数据集："></a>数据集：</h3><p><strong>图像：（batch_size , channel , height , width）</strong></p>
+<p><strong>bounding box: （batch_size , m , 5）</strong></p>
+<p><strong>m:</strong> 图像中可能出现的最多边界框的数目</p>
+<p><strong>5：</strong> 第一个数据为边界框对应的种类，对于少于m个边界框的图像，为了保持数据的统一，需要填充非法边界框，此时将其标为-1，并在后面计算中舍弃。剩余四个数据为边界框的左上角和右下角坐标。</p>
+<h3 id="在训练数据中标注锚框："><a href="#在训练数据中标注锚框：" class="headerlink" title="在训练数据中标注锚框："></a>在训练数据中标注锚框：</h3><p>在训练集中，我们将每个锚框视为一个训练样本。</p>
+<p>首先，在图片中使用不同的方法生成大量锚框。接着使用数据集中的真实边界框与锚框的交并比来为每一个锚框标记类别和偏移量。</p>
+<h2 id="SSD模型"><a href="#SSD模型" class="headerlink" title="SSD模型"></a>SSD模型</h2><h3 id="模型结构："><a href="#模型结构：" class="headerlink" title="模型结构："></a>模型结构：</h3><p>首先，使用基本网络块从图像中抽取特征，再逐步将其使用卷积和池化将特征图宽高减半，最终使用全局最大池将高度和宽度都降到1。</p>
+<h3 id="锚框构造："><a href="#锚框构造：" class="headerlink" title="锚框构造："></a>锚框构造：</h3><p>我们对每一个特征图的每一个像素生成不同宽高比的锚框。当特征图尺寸越小，映射到原图的锚框越大，这样我们可以搜素不同大小的物体。<br><img  
+                     lazyload
+                     src="/images/loading.svg"
+                     data-src="/..%5Cimages%5Cssd1.png"
+                      alt="ssd1"
+                ></p>
+<p>  <img  
+                     lazyload
+                     src="/images/loading.svg"
+                     data-src="/..%5Cimages%5Cssd2.png"
+                      alt="ssd2"
+                ></p>
+<h3 id="锚框的种类和偏移量预测："><a href="#锚框的种类和偏移量预测：" class="headerlink" title="锚框的种类和偏移量预测："></a>锚框的种类和偏移量预测：</h3><p>对于种类和偏移量的预测使用不同通道来表示：</p>
+<p>具体来说对于一个<strong>2x2</strong>的特征图假设每一个像素生成<strong>3</strong>个锚框，对于这个特征图一共有<strong>12</strong>个锚框。假设我们一共要预测<strong>3</strong>个种类，我们使用卷积生成 <strong>12x(3+1)<strong>（+1是指将锚框标注为背景） 个通道的</strong>2x2</strong>结果。例如第一个通道的第一个像素表示为特征图第一个像素生成的第一个锚框预测为第一个种类的概率。</p>
+<p>相同的我们对偏移量的预测一共生成<strong>12x4</strong>个通道来表示预测结果。</p>
+<p>&amp;nbsp;</p>
+<p><strong>最终网络如下所示：</strong></p>
+<p><img  
+                     lazyload
+                     src="/images/loading.svg"
+                     data-src="/..%5Cimages%5Cssd3.png"
+                      alt="ssd3"
+                ></p>
+<p>我们使用交叉熵损失函数来对每一个锚框的预测种类和真实值求loss，对于每一个锚框的偏移量使用L1范数损失来求其loss。</p>
 
-    <a href="/2023/04/30/%E6%9C%8D%E5%8A%A1%E5%99%A8%E5%B8%B8%E7%94%A8%E5%91%BD%E4%BB%A4/">Read more<span class="seo-reader-text">服务器常用命令</span>&nbsp;<i class="fa-solid fa-angle-right"></i></a>
-</div>
+            </div>
 
+            
+                <div class="post-copyright-info">
+                    <div class="article-copyright-info-container">
+    <ul>
+        <li><strong>Title:</strong> SSD目标检测</li>
+        <li><strong>Author:</strong> Tong</li>
+        <li><strong>Created at:</strong> 2023-04-30 19:38:07</li>
+        
+            <li>
+                <strong>Updated at:</strong> 2023-05-01 13:56:30
             </li>
         
+        <li>
+            <strong>Link:</strong> https://github.com/Tong-Cao/Tong-Cao.github.io.git/2023/04/30/SSD目标检测/
+        </li>
+        <li>
+            <strong>License:</strong> This work is licensed under <a class="license" target="_blank" rel="noopener" href="https://creativecommons.org/licenses/by-nc-sa/4.0/deed.zh">CC BY-NC-SA 4.0</a>.
+        </li>
     </ul>
-
-    <div class="home-paginator">
-        <div class="paginator">
-    <span class="page-number current">1</span>
 </div>
+
+                </div>
+            
+
+            
+                <ul class="post-tags-box">
+                    
+                        <li class="tag-item">
+                            <a href="/tags/%E6%B7%B1%E5%BA%A6%E5%AD%A6%E4%B9%A0/">#深度学习</a>&nbsp;
+                        </li>
+                    
+                        <li class="tag-item">
+                            <a href="/tags/%E7%9B%AE%E6%A0%87%E6%A3%80%E6%B5%8B/">#目标检测</a>&nbsp;
+                        </li>
+                    
+                </ul>
+            
+
+            
+
+            
+                <div class="article-nav">
+                    
+                    
+                        <div class="article-next">
+                            <a class="next"
+                            rel="next"
+                            href="/2023/04/30/%E6%9C%8D%E5%8A%A1%E5%99%A8%E5%B8%B8%E7%94%A8%E5%91%BD%E4%BB%A4/"
+                            >
+                                <span class="title flex-center">
+                                    <span class="post-nav-title-item">服务器常用命令</span>
+                                    <span class="post-nav-item">Next posts</span>
+                                </span>
+                                <span class="right arrow-icon flex-center">
+                                    <i class="fa-solid fa-chevron-right"></i>
+                                </span>
+                            </a>
+                        </div>
+                    
+                </div>
+            
+
+
+            
+                <div class="comment-container">
+                    <div class="comments-container">
+    <div id="comment-anchor"></div>
+    <div class="comment-area-title">
+        <i class="fa-solid fa-comments"></i>&nbsp;Comments
+    </div>
+    
+
+        
+            
+ 
+    <div id="waline"></div>
+    <script type="module"  data-pjax>
+        import { init } from 'https://evan.beee.top/js/waline.mjs';
+
+        function loadWaline() {
+            init({
+                el: '#waline',
+                serverURL: 'https://example.example.com',
+                lang: 'zh-CN',
+                dark: 'body[class~="dark-mode"]',
+                requiredMeta: ['nick','mail'], // cannot customize by theme config, change it yourself
+            });
+        }
+
+        if ('true') {
+            const loadWalineTimeout = setTimeout(() => {
+                loadWaline();
+                clearTimeout(loadWalineTimeout);
+            }, 1000);
+        } else {
+            window.addEventListener('DOMContentLoaded', loadWaline);
+        }
+        
+    </script>
+
+
+
+        
+    
+</div>
+
+                </div>
+            
+        </div>
+
+        
+            <div class="toc-content-container">
+                <div class="post-toc-wrap">
+    <div class="post-toc">
+        <div class="toc-title">On this page</div>
+        <div class="page-title">SSD目标检测</div>
+        <ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E6%95%B0%E6%8D%AE%E9%9B%86%E4%BB%A5%E5%8F%8A%E9%94%9A%E6%A1%86%E7%9A%84%E5%A4%84%E7%90%86"><span class="nav-text">数据集以及锚框的处理</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%95%B0%E6%8D%AE%E9%9B%86%EF%BC%9A"><span class="nav-text">数据集：</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%9C%A8%E8%AE%AD%E7%BB%83%E6%95%B0%E6%8D%AE%E4%B8%AD%E6%A0%87%E6%B3%A8%E9%94%9A%E6%A1%86%EF%BC%9A"><span class="nav-text">在训练数据中标注锚框：</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#SSD%E6%A8%A1%E5%9E%8B"><span class="nav-text">SSD模型</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%A8%A1%E5%9E%8B%E7%BB%93%E6%9E%84%EF%BC%9A"><span class="nav-text">模型结构：</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E9%94%9A%E6%A1%86%E6%9E%84%E9%80%A0%EF%BC%9A"><span class="nav-text">锚框构造：</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E9%94%9A%E6%A1%86%E7%9A%84%E7%A7%8D%E7%B1%BB%E5%92%8C%E5%81%8F%E7%A7%BB%E9%87%8F%E9%A2%84%E6%B5%8B%EF%BC%9A"><span class="nav-text">锚框的种类和偏移量预测：</span></a></li></ol></li></ol>
 
     </div>
 </div>
+            </div>
+        
+    </div>
+</div>
+
 
                 
 
@@ -453,6 +504,27 @@ rz ...
     </div>
 
     
+        <div class="post-tools">
+            <div class="post-tools-container">
+    <ul class="article-tools-list">
+        <!-- TOC aside toggle -->
+        
+            <li class="right-bottom-tools page-aside-toggle">
+                <i class="fa-regular fa-outdent"></i>
+            </li>
+        
+
+        <!-- go comment -->
+        
+            <li class="go-comment">
+                <i class="fa-regular fa-comments"></i>
+            </li>
+        
+    </ul>
+</div>
+
+        </div>
+    
 
     <div class="right-side-tools-container">
         <div class="side-tools-container">
@@ -512,7 +584,6 @@ rz ...
 
 
 
-
 <script src="/js/utils.js"></script>
 
 <script src="/js/main.js"></script>
@@ -564,6 +635,16 @@ rz ...
 
 
 <div class="post-scripts pjax">
+    
+        
+<script src="/js/tools/tocToggle.js"></script>
+
+<script src="/js/libs/anime.min.js"></script>
+
+<script src="/js/layouts/toc.js"></script>
+
+<script src="/js/plugins/tabs.js"></script>
+
     
 </div>
 
