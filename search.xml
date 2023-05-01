@@ -13,13 +13,13 @@
 <h3 id="锚框构造："><a href="#锚框构造：" class="headerlink" title="锚框构造："></a>锚框构造：</h3><p>我们对每一个特征图的每一个像素生成不同宽高比的锚框。当特征图尺寸越小，映射到原图的锚框越大，这样我们可以搜素不同大小的物体。<br><img  
                      lazyload
                      src="/images/loading.svg"
-                     data-src="/..%5Cimages%5Cssd1.png"
+                     data-src="/%5Cimages%5Cssd1.png"
                       alt="ssd1"
                 ></p>
 <p>  <img  
                      lazyload
                      src="/images/loading.svg"
-                     data-src="/..%5Cimages%5Cssd2.png"
+                     data-src="/%5Cimages%5Cssd2.png"
                       alt="ssd2"
                 ></p>
 <h3 id="锚框的种类和偏移量预测："><a href="#锚框的种类和偏移量预测：" class="headerlink" title="锚框的种类和偏移量预测："></a>锚框的种类和偏移量预测：</h3><p>对于种类和偏移量的预测使用不同通道来表示：</p>

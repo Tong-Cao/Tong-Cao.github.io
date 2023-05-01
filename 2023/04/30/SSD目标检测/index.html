@@ -25,16 +25,16 @@
 <meta property="og:site_name" content="Hexo">
 <meta property="og:description" content="数据集以及锚框的处理数据集：图像：（batch_size , channel , height , width） bounding box: （batch_size , m , 5） m: 图像中可能出现的最多边界框的数目 5： 第一个数据为边界框对应的种类，对于少于m个边界框的图像，为了保持数据的统一，需要填充非法边界框，此时将其标为-1，并在后面计算中舍弃。剩余四个数据为边界框的左上角和右下角">
 <meta property="og:locale" content="en_US">
-<meta property="og:image" content="http://example.com/..%5Cimages%5Cssd1.png">
-<meta property="og:image" content="http://example.com/..%5Cimages%5Cssd2.png">
+<meta property="og:image" content="http://example.com/%5Cimages%5Cssd1.png">
+<meta property="og:image" content="http://example.com/%5Cimages%5Cssd2.png">
 <meta property="og:image" content="http://example.com/..%5Cimages%5Cssd3.png">
 <meta property="article:published_time" content="2023-04-30T11:38:07.000Z">
-<meta property="article:modified_time" content="2023-05-01T05:56:30.473Z">
+<meta property="article:modified_time" content="2023-05-01T06:04:32.030Z">
 <meta property="article:author" content="John Doe">
 <meta property="article:tag" content="深度学习">
 <meta property="article:tag" content="目标检测">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:image" content="http://example.com/..%5Cimages%5Cssd1.png">
+<meta name="twitter:image" content="http://example.com/%5Cimages%5Cssd1.png">
     
     <!--- Icon Part-->
     <link rel="icon" type="image/png" href="/images/nezha.webp" sizes="192x192">
@@ -229,8 +229,8 @@
     
         <span class="article-date article-meta-item">
             <i class="fa-regular fa-wrench"></i>&nbsp;
-            <span class="desktop">2023-05-01 13:56:30</span>
-            <span class="mobile">2023-05-01 13:56</span>
+            <span class="desktop">2023-05-01 14:04:32</span>
+            <span class="mobile">2023-05-01 14:04</span>
             <span class="hover-info">Updated</span>
         </span>
     
@@ -279,13 +279,13 @@
 <h3 id="锚框构造："><a href="#锚框构造：" class="headerlink" title="锚框构造："></a>锚框构造：</h3><p>我们对每一个特征图的每一个像素生成不同宽高比的锚框。当特征图尺寸越小，映射到原图的锚框越大，这样我们可以搜素不同大小的物体。<br><img  
                      lazyload
                      src="/images/loading.svg"
-                     data-src="/..%5Cimages%5Cssd1.png"
+                     data-src="/%5Cimages%5Cssd1.png"
                       alt="ssd1"
                 ></p>
 <p>  <img  
                      lazyload
                      src="/images/loading.svg"
-                     data-src="/..%5Cimages%5Cssd2.png"
+                     data-src="/%5Cimages%5Cssd2.png"
                       alt="ssd2"
                 ></p>
 <h3 id="锚框的种类和偏移量预测："><a href="#锚框的种类和偏移量预测：" class="headerlink" title="锚框的种类和偏移量预测："></a>锚框的种类和偏移量预测：</h3><p>对于种类和偏移量的预测使用不同通道来表示：</p>
@@ -312,7 +312,7 @@
         <li><strong>Created at:</strong> 2023-04-30 19:38:07</li>
         
             <li>
-                <strong>Updated at:</strong> 2023-05-01 13:56:30
+                <strong>Updated at:</strong> 2023-05-01 14:04:32
             </li>
         
         <li>
