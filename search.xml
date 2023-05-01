@@ -30,7 +30,7 @@
 <p><img  
                      lazyload
                      src="/images/loading.svg"
-                     data-src="/..%5Cimages%5Cssd3.png"
+                     data-src="/images/ssd3.png"
                       alt="ssd3"
                 ></p>
 <p>我们使用交叉熵损失函数来对每一个锚框的预测种类和真实值求loss，对于每一个锚框的偏移量使用L1范数损失来求其loss。</p>
