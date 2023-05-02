@@ -35,6 +35,10 @@
                 ></p>
 <p>我们使用交叉熵损失函数来对每一个锚框的预测种类和真实值求loss，对于每一个锚框的偏移量使用L1范数损失来求其loss。</p>
 ]]></content>
+      <categories>
+        <category>深度学习</category>
+        <category>目标检测</category>
+      </categories>
       <tags>
         <tag>深度学习</tag>
         <tag>目标检测</tag>
@@ -60,6 +64,10 @@
 <p><code>kill -9 ID</code> 关闭python进程</p>
 <h2 id="TensorBoard"><a href="#TensorBoard" class="headerlink" title="TensorBoard:"></a>TensorBoard:</h2><p><code>tensorboard --logdir=save --port=6006</code></p>
 ]]></content>
+      <categories>
+        <category>技术</category>
+        <category>服务器</category>
+      </categories>
       <tags>
         <tag>vim</tag>
         <tag>linux</tag>
