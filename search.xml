@@ -73,4 +73,27 @@
         <tag>linux</tag>
       </tags>
   </entry>
+  <entry>
+    <title>多GPU训练</title>
+    <url>/2023/05/05/%E5%A4%9AGPU%E8%AE%AD%E7%BB%83/</url>
+    <content><![CDATA[<h2 id="torch-distributed"><a href="#torch-distributed" class="headerlink" title="torch.distributed"></a>torch.distributed</h2><div class="highlight-container" data-rel="Python"><figure class="iseeu highlight python"><table><tr><td class="code"><pre><span class="line"><span class="keyword">from</span> torch.utils.data.distributed <span class="keyword">import</span> DistributedSampler</span><br><span class="line"><span class="comment"># 1) 初始化</span></span><br><span class="line">torch.distributed.init_process_group(backend=<span class="string">&quot;nccl&quot;</span>)</span><br><span class="line"></span><br><span class="line"><span class="comment"># 2） 配置每个进程的gpu</span></span><br><span class="line">local_rank = torch.distributed.get_rank()</span><br><span class="line"><span class="built_in">print</span>(<span class="string">&#x27;local_rank&#x27;</span>,local_rank)</span><br><span class="line">torch.cuda.set_device(local_rank)</span><br><span class="line">device = torch.device(<span class="string">&quot;cuda&quot;</span>, local_rank)</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="comment"># 3）使用DistributedSampler</span></span><br><span class="line">rand_loader = DataLoader(dataset=dataset,</span><br><span class="line">                         batch_size=batch_size,</span><br><span class="line">                         sampler=DistributedSampler(dataset))</span><br><span class="line"></span><br><span class="line"><span class="comment"># 4) 封装之前要把模型移到对应的gpu</span></span><br><span class="line">model.to(device)</span><br><span class="line"> </span><br><span class="line"><span class="keyword">if</span> torch.cuda.device_count() &gt; <span class="number">1</span>:</span><br><span class="line">    <span class="built_in">print</span>(<span class="string">&quot;Let&#x27;s use&quot;</span>, torch.cuda.device_count(), <span class="string">&quot;GPUs!&quot;</span>)</span><br><span class="line">    <span class="comment"># 5) 封装</span></span><br><span class="line">    model = torch.nn.parallel.DistributedDataParallel(model,</span><br><span class="line">                                                      device_ids=[local_rank],</span><br><span class="line">                                                      output_device=local_rank)</span><br></pre></td></tr></table></figure></div>
+<p> 运行</p>
+<div class="highlight-container" data-rel="Bash"><figure class="iseeu highlight bash"><table><tr><td class="code"><pre><span class="line">python -m torch.distributed.launch --nproc_per_node=2 main.py</span><br></pre></td></tr></table></figure></div>
+
+<p>使用<code>argparse.ArgumentParser()</code>解析参数时可能会出现<code>unrecognized arguments: --local-rank=2</code>的错误<del>一般只需要加上<br><code>parser.add_argument(&quot;--rank&quot;, default=-1, type=int, help=&quot;node rank for distributed training&quot;)</code>就行<br>但是在新服务器上发现此方法失效，暂时只能能将<code>argparse.ArgumentParser()</code>模块删去，解决报错。</del><br>报错显示为<code>--local-rank</code>没有识别，之前一直加的参数为<code>parser.add_argument(&quot;--local_rank&quot;, default=-1, type=int) </code>现修改为<code>parser.add_argument(&quot;--local-rank&quot;, default=-1, type=int)</code>（下划线改为破折号）正常运行。</p>
+<h2 id="报错"><a href="#报错" class="headerlink" title="报错"></a>报错</h2><blockquote>
+<p>RuntimeError: Expected to have finished reduction in the prioriteration before starting a new one. This error indicates that yourmodule has parameters that were not used in producing loss. You can enable unused parameter detection by (1) passing the keyword argument  find_unused_parameters&#x3D;True to torch.nn.parallel.DistributedDataParallel; (2) making sure all forward function outputs participate in calculating loss. If you already have done the above two steps, then the distributed data parallel module wasn’t able to locate the output tensors in the return value of your module’s forward function. Please include the loss function and the structure of the return value of forward of your module when reporting this issue (e.g. list, dict, iterable).</p>
+</blockquote>
+<p>使用单GPU可以正常梯度下降，多GPU时提醒这个报错。<br>在 <strong>torch.nn.parallel.DistributedDataParallel</strong>中加入<strong>find_unused_parameters&#x3D;True</strong>忽略这些报错参数</p>
+<div class="highlight-container" data-rel="Python"><figure class="iseeu highlight python"><table><tr><td class="code"><pre><span class="line">model = torch.nn.parallel.DistributedDataParallel(model,find_unused_parameters=<span class="literal">True</span>， </span><br><span class="line">                                                  device_ids=[local_rank],</span><br><span class="line">                                                  output_device=local_rank)</span><br></pre></td></tr></table></figure></div>
+]]></content>
+      <categories>
+        <category>深度学习</category>
+        <category>GPU训练</category>
+      </categories>
+      <tags>
+        <tag>深度学习</tag>
+        <tag>GPU</tag>
+      </tags>
+  </entry>
 </search>

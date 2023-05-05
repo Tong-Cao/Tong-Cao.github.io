@@ -17,28 +17,24 @@
     
     <!--- Seo Part-->
     
-    <link rel="canonical" href="http://example.com/2023/04/30/ssd目标检测/"/>
+    <link rel="canonical" href="http://example.com/2023/05/05/多gpu训练/"/>
     <meta name="robots" content="index,follow">
     <meta name="googlebot" content="index,follow">
     <meta name="revisit-after" content="1 days">
     
-        <meta name="description" content="数据集以及锚框的处理数据集：图像：（batch_size , channel , height , width） bounding box: （batch_size , m , 5） m: 图像中可能出现的最多边界框的数目 5： 第一个数据为边界框对应的种类，对于少于m个边界框的图像，为了保持数据的统一，需要填充非法边界框，此时将其标为-1，并在后面计算中舍弃。剩余四个数据为边界框的左上角和右下角">
+        <meta name="description" content="torch.distributed12345678910111213141516171819202122232425from torch.utils.data.distributed import DistributedSampler# 1) 初始化torch.distributed.init_process_group(backend&#x3D;&quot;nccl&quot;)# 2） 配置每个进程的g">
 <meta property="og:type" content="article">
-<meta property="og:title" content="SSD目标检测">
-<meta property="og:url" content="http://example.com/2023/04/30/SSD%E7%9B%AE%E6%A0%87%E6%A3%80%E6%B5%8B/index.html">
+<meta property="og:title" content="多GPU训练">
+<meta property="og:url" content="http://example.com/2023/05/05/%E5%A4%9AGPU%E8%AE%AD%E7%BB%83/index.html">
 <meta property="og:site_name" content="Hexo">
-<meta property="og:description" content="数据集以及锚框的处理数据集：图像：（batch_size , channel , height , width） bounding box: （batch_size , m , 5） m: 图像中可能出现的最多边界框的数目 5： 第一个数据为边界框对应的种类，对于少于m个边界框的图像，为了保持数据的统一，需要填充非法边界框，此时将其标为-1，并在后面计算中舍弃。剩余四个数据为边界框的左上角和右下角">
+<meta property="og:description" content="torch.distributed12345678910111213141516171819202122232425from torch.utils.data.distributed import DistributedSampler# 1) 初始化torch.distributed.init_process_group(backend&#x3D;&quot;nccl&quot;)# 2） 配置每个进程的g">
 <meta property="og:locale" content="en_US">
-<meta property="og:image" content="http://example.com/images/ssd1.png">
-<meta property="og:image" content="http://example.com/images/ssd2.png">
-<meta property="og:image" content="http://example.com/images/ssd3.png">
-<meta property="article:published_time" content="2023-04-30T11:38:07.000Z">
-<meta property="article:modified_time" content="2023-05-02T03:48:26.524Z">
+<meta property="article:published_time" content="2023-05-05T10:05:07.000Z">
+<meta property="article:modified_time" content="2023-05-05T10:06:59.007Z">
 <meta property="article:author" content="John Doe">
 <meta property="article:tag" content="深度学习">
-<meta property="article:tag" content="目标检测">
+<meta property="article:tag" content="GPU">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:image" content="http://example.com/images/ssd1.png">
     
     
     <!--- Icon Part-->
@@ -50,7 +46,7 @@
     
     <title>
         
-            SSD目标检测 -
+            多GPU训练 -
         
         Tong&#39;s Blog
     </title>
@@ -195,7 +191,7 @@
             
             
                 <div class="article-title">
-                    <h1 class="article-title-regular">SSD目标检测</h1>
+                    <h1 class="article-title-regular">多GPU训练</h1>
                 </div>
             
                 
@@ -217,15 +213,15 @@
                             <div class="article-meta-info">
     <span class="article-date article-meta-item">
         <i class="fa-regular fa-pen-fancy"></i>&nbsp;
-        <span class="desktop">2023-04-30 19:38:07</span>
-        <span class="mobile">2023-04-30 19:38</span>
+        <span class="desktop">2023-05-05 18:05:07</span>
+        <span class="mobile">2023-05-05 18:05</span>
         <span class="hover-info">Created</span>
     </span>
     
         <span class="article-date article-meta-item">
             <i class="fa-regular fa-wrench"></i>&nbsp;
-            <span class="desktop">2023-05-02 11:48:26</span>
-            <span class="mobile">2023-05-02 11:48</span>
+            <span class="desktop">2023-05-05 18:06:59</span>
+            <span class="mobile">2023-05-05 18:06</span>
             <span class="hover-info">Updated</span>
         </span>
     
@@ -240,7 +236,7 @@
                     </li>
                 
                     <li>
-                        &gt; <a href="/categories/%E6%B7%B1%E5%BA%A6%E5%AD%A6%E4%B9%A0/%E7%9B%AE%E6%A0%87%E6%A3%80%E6%B5%8B/">目标检测</a>&nbsp;
+                        &gt; <a href="/categories/%E6%B7%B1%E5%BA%A6%E5%AD%A6%E4%B9%A0/GPU%E8%AE%AD%E7%BB%83/">GPU训练</a>&nbsp;
                     </li>
                 
             </ul>
@@ -256,7 +252,7 @@
                     </li>
                 
                     <li>
-                        | <a href="/tags/%E7%9B%AE%E6%A0%87%E6%A3%80%E6%B5%8B/">目标检测</a>&nbsp;
+                        | <a href="/tags/GPU/">GPU</a>&nbsp;
                     </li>
                 
             </ul>
@@ -279,37 +275,16 @@
             
 
             <div class="article-content markdown-body">
-                <h2 id="数据集以及锚框的处理"><a href="#数据集以及锚框的处理" class="headerlink" title="数据集以及锚框的处理"></a>数据集以及锚框的处理</h2><h3 id="数据集："><a href="#数据集：" class="headerlink" title="数据集："></a>数据集：</h3><p><strong>图像：（batch_size , channel , height , width）</strong></p>
-<p><strong>bounding box: （batch_size , m , 5）</strong></p>
-<p><strong>m:</strong> 图像中可能出现的最多边界框的数目</p>
-<p><strong>5：</strong> 第一个数据为边界框对应的种类，对于少于m个边界框的图像，为了保持数据的统一，需要填充非法边界框，此时将其标为-1，并在后面计算中舍弃。剩余四个数据为边界框的左上角和右下角坐标。</p>
-<h3 id="在训练数据中标注锚框："><a href="#在训练数据中标注锚框：" class="headerlink" title="在训练数据中标注锚框："></a>在训练数据中标注锚框：</h3><p>在训练集中，我们将每个锚框视为一个训练样本。</p>
-<p>首先，在图片中使用不同的方法生成大量锚框。接着使用数据集中的真实边界框与锚框的交并比来为每一个锚框标记类别和偏移量。</p>
-<h2 id="SSD模型"><a href="#SSD模型" class="headerlink" title="SSD模型"></a>SSD模型</h2><h3 id="模型结构："><a href="#模型结构：" class="headerlink" title="模型结构："></a>模型结构：</h3><p>首先，使用基本网络块从图像中抽取特征，再逐步将其使用卷积和池化将特征图宽高减半，最终使用全局最大池将高度和宽度都降到1。</p>
-<h3 id="锚框构造："><a href="#锚框构造：" class="headerlink" title="锚框构造："></a>锚框构造：</h3><p>我们对每一个特征图的每一个像素生成不同宽高比的锚框。当特征图尺寸越小，映射到原图的锚框越大，这样我们可以搜素不同大小的物体。<br><img  
-                     lazyload
-                     src="/images/loading.svg"
-                     data-src="/images/ssd1.png"
-                      alt="ssd1"
-                ></p>
-<p> <img  
-                     lazyload
-                     src="/images/loading.svg"
-                     data-src="/images/ssd2.png"
-                      alt="ssd2"
-                ></p>
-<h3 id="锚框的种类和偏移量预测："><a href="#锚框的种类和偏移量预测：" class="headerlink" title="锚框的种类和偏移量预测："></a>锚框的种类和偏移量预测：</h3><p>对于种类和偏移量的预测使用不同通道来表示：</p>
-<p>具体来说对于一个<strong>2x2</strong>的特征图假设每一个像素生成<strong>3</strong>个锚框，对于这个特征图一共有<strong>12</strong>个锚框。假设我们一共要预测<strong>3</strong>个种类，我们使用卷积生成 <strong>12x(3+1)<strong>（+1是指将锚框标注为背景） 个通道的</strong>2x2</strong>结果。例如第一个通道的第一个像素表示为特征图第一个像素生成的第一个锚框预测为第一个种类的概率。</p>
-<p>相同的我们对偏移量的预测一共生成<strong>12x4</strong>个通道来表示预测结果。</p>
-<p>&amp;nbsp;</p>
-<p><strong>最终网络如下所示：</strong></p>
-<p><img  
-                     lazyload
-                     src="/images/loading.svg"
-                     data-src="/images/ssd3.png"
-                      alt="ssd3"
-                ></p>
-<p>我们使用交叉熵损失函数来对每一个锚框的预测种类和真实值求loss，对于每一个锚框的偏移量使用L1范数损失来求其loss。</p>
+                <h2 id="torch-distributed"><a href="#torch-distributed" class="headerlink" title="torch.distributed"></a>torch.distributed</h2><div class="highlight-container" data-rel="Python"><figure class="iseeu highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">from</span> torch.utils.data.distributed <span class="keyword">import</span> DistributedSampler</span><br><span class="line"><span class="comment"># 1) 初始化</span></span><br><span class="line">torch.distributed.init_process_group(backend=<span class="string">&quot;nccl&quot;</span>)</span><br><span class="line"></span><br><span class="line"><span class="comment"># 2） 配置每个进程的gpu</span></span><br><span class="line">local_rank = torch.distributed.get_rank()</span><br><span class="line"><span class="built_in">print</span>(<span class="string">&#x27;local_rank&#x27;</span>,local_rank)</span><br><span class="line">torch.cuda.set_device(local_rank)</span><br><span class="line">device = torch.device(<span class="string">&quot;cuda&quot;</span>, local_rank)</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="comment"># 3）使用DistributedSampler</span></span><br><span class="line">rand_loader = DataLoader(dataset=dataset,</span><br><span class="line">                         batch_size=batch_size,</span><br><span class="line">                         sampler=DistributedSampler(dataset))</span><br><span class="line"></span><br><span class="line"><span class="comment"># 4) 封装之前要把模型移到对应的gpu</span></span><br><span class="line">model.to(device)</span><br><span class="line"> </span><br><span class="line"><span class="keyword">if</span> torch.cuda.device_count() &gt; <span class="number">1</span>:</span><br><span class="line">    <span class="built_in">print</span>(<span class="string">&quot;Let&#x27;s use&quot;</span>, torch.cuda.device_count(), <span class="string">&quot;GPUs!&quot;</span>)</span><br><span class="line">    <span class="comment"># 5) 封装</span></span><br><span class="line">    model = torch.nn.parallel.DistributedDataParallel(model,</span><br><span class="line">                                                      device_ids=[local_rank],</span><br><span class="line">                                                      output_device=local_rank)</span><br></pre></td></tr></table></figure></div>
+<p> 运行</p>
+<div class="highlight-container" data-rel="Bash"><figure class="iseeu highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">python -m torch.distributed.launch --nproc_per_node=2 main.py</span><br></pre></td></tr></table></figure></div>
+
+<p>使用<code>argparse.ArgumentParser()</code>解析参数时可能会出现<code>unrecognized arguments: --local-rank=2</code>的错误<del>一般只需要加上<br><code>parser.add_argument(&quot;--rank&quot;, default=-1, type=int, help=&quot;node rank for distributed training&quot;)</code>就行<br>但是在新服务器上发现此方法失效，暂时只能能将<code>argparse.ArgumentParser()</code>模块删去，解决报错。</del><br>报错显示为<code>--local-rank</code>没有识别，之前一直加的参数为<code>parser.add_argument(&quot;--local_rank&quot;, default=-1, type=int) </code>现修改为<code>parser.add_argument(&quot;--local-rank&quot;, default=-1, type=int)</code>（下划线改为破折号）正常运行。</p>
+<h2 id="报错"><a href="#报错" class="headerlink" title="报错"></a>报错</h2><blockquote>
+<p>RuntimeError: Expected to have finished reduction in the prioriteration before starting a new one. This error indicates that yourmodule has parameters that were not used in producing loss. You can enable unused parameter detection by (1) passing the keyword argument  find_unused_parameters&#x3D;True to torch.nn.parallel.DistributedDataParallel; (2) making sure all forward function outputs participate in calculating loss. If you already have done the above two steps, then the distributed data parallel module wasn’t able to locate the output tensors in the return value of your module’s forward function. Please include the loss function and the structure of the return value of forward of your module when reporting this issue (e.g. list, dict, iterable).</p>
+</blockquote>
+<p>使用单GPU可以正常梯度下降，多GPU时提醒这个报错。<br>在 <strong>torch.nn.parallel.DistributedDataParallel</strong>中加入<strong>find_unused_parameters&#x3D;True</strong>忽略这些报错参数</p>
+<div class="highlight-container" data-rel="Python"><figure class="iseeu highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">model = torch.nn.parallel.DistributedDataParallel(model,find_unused_parameters=<span class="literal">True</span>， </span><br><span class="line">                                                  device_ids=[local_rank],</span><br><span class="line">                                                  output_device=local_rank)</span><br></pre></td></tr></table></figure></div>
 
             </div>
 
@@ -317,16 +292,16 @@
                 <div class="post-copyright-info">
                     <div class="article-copyright-info-container">
     <ul>
-        <li><strong>Title:</strong> SSD目标检测</li>
+        <li><strong>Title:</strong> 多GPU训练</li>
         <li><strong>Author:</strong> Tong</li>
-        <li><strong>Created at:</strong> 2023-04-30 19:38:07</li>
+        <li><strong>Created at:</strong> 2023-05-05 18:05:07</li>
         
             <li>
-                <strong>Updated at:</strong> 2023-05-02 11:48:26
+                <strong>Updated at:</strong> 2023-05-05 18:06:59
             </li>
         
         <li>
-            <strong>Link:</strong> https://github.com/Tong-Cao/Tong-Cao.github.io.git/2023/04/30/SSD目标检测/
+            <strong>Link:</strong> https://github.com/Tong-Cao/Tong-Cao.github.io.git/2023/05/05/多GPU训练/
         </li>
         <li>
             <strong>License:</strong> This work is licensed under <a class="license" target="_blank" rel="noopener" href="https://creativecommons.org/licenses/by-nc-sa/4.0/deed.zh">CC BY-NC-SA 4.0</a>.
@@ -345,7 +320,7 @@
                         </li>
                     
                         <li class="tag-item">
-                            <a href="/tags/%E7%9B%AE%E6%A0%87%E6%A3%80%E6%B5%8B/">#目标检测</a>&nbsp;
+                            <a href="/tags/GPU/">#GPU</a>&nbsp;
                         </li>
                     
                 </ul>
@@ -356,29 +331,14 @@
             
                 <div class="article-nav">
                     
-                        <div class="article-prev">
-                            <a class="prev"
-                            rel="prev"
-                            href="/2023/05/05/%E5%A4%9AGPU%E8%AE%AD%E7%BB%83/"
-                            >
-                                <span class="left arrow-icon flex-center">
-                                    <i class="fa-solid fa-chevron-left"></i>
-                                </span>
-                                <span class="title flex-center">
-                                    <span class="post-nav-title-item">多GPU训练</span>
-                                    <span class="post-nav-item">Prev posts</span>
-                                </span>
-                            </a>
-                        </div>
-                    
                     
                         <div class="article-next">
                             <a class="next"
                             rel="next"
-                            href="/2023/04/30/%E6%9C%8D%E5%8A%A1%E5%99%A8%E5%B8%B8%E7%94%A8%E5%91%BD%E4%BB%A4/"
+                            href="/2023/04/30/SSD%E7%9B%AE%E6%A0%87%E6%A3%80%E6%B5%8B/"
                             >
                                 <span class="title flex-center">
-                                    <span class="post-nav-title-item">服务器常用命令</span>
+                                    <span class="post-nav-title-item">SSD目标检测</span>
                                     <span class="post-nav-item">Next posts</span>
                                 </span>
                                 <span class="right arrow-icon flex-center">
@@ -443,8 +403,8 @@
                 <div class="post-toc-wrap">
     <div class="post-toc">
         <div class="toc-title">On this page</div>
-        <div class="page-title">SSD目标检测</div>
-        <ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E6%95%B0%E6%8D%AE%E9%9B%86%E4%BB%A5%E5%8F%8A%E9%94%9A%E6%A1%86%E7%9A%84%E5%A4%84%E7%90%86"><span class="nav-text">数据集以及锚框的处理</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%95%B0%E6%8D%AE%E9%9B%86%EF%BC%9A"><span class="nav-text">数据集：</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%9C%A8%E8%AE%AD%E7%BB%83%E6%95%B0%E6%8D%AE%E4%B8%AD%E6%A0%87%E6%B3%A8%E9%94%9A%E6%A1%86%EF%BC%9A"><span class="nav-text">在训练数据中标注锚框：</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#SSD%E6%A8%A1%E5%9E%8B"><span class="nav-text">SSD模型</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%A8%A1%E5%9E%8B%E7%BB%93%E6%9E%84%EF%BC%9A"><span class="nav-text">模型结构：</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E9%94%9A%E6%A1%86%E6%9E%84%E9%80%A0%EF%BC%9A"><span class="nav-text">锚框构造：</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E9%94%9A%E6%A1%86%E7%9A%84%E7%A7%8D%E7%B1%BB%E5%92%8C%E5%81%8F%E7%A7%BB%E9%87%8F%E9%A2%84%E6%B5%8B%EF%BC%9A"><span class="nav-text">锚框的种类和偏移量预测：</span></a></li></ol></li></ol>
+        <div class="page-title">多GPU训练</div>
+        <ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#torch-distributed"><span class="nav-text">torch.distributed</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E6%8A%A5%E9%94%99"><span class="nav-text">报错</span></a></li></ol>
 
     </div>
 </div>
