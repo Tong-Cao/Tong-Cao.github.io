@@ -58,11 +58,21 @@
 <p><strong>a</strong> 进入编辑模式</p>
 <p><strong>Esc</strong> 进入命令模式</p>
 <p><code>：wq</code>保存并退出</p>
+<h2 id="screen使用："><a href="#screen使用：" class="headerlink" title="screen使用："></a>screen使用：</h2><p><code>yum install -y screen</code> screen安装</p>
+<p><code>screen -S name</code> 创建新窗口</p>
+<p><strong>ctrl + a + d</strong>  或 <code>screen -d</code> 退出当前窗口</p>
+<p><code>exit</code> 退出程序并关闭窗口</p>
+<p><code>screen -ls</code> 查看窗口</p>
+<p><code>screen -r id_or_name</code>  重新连接窗口</p>
+<h2 id="脚本运行："><a href="#脚本运行：" class="headerlink" title="脚本运行："></a>脚本运行：</h2><p><code>chmod +x run_pytorch.sh</code> 使得脚本可以运行</p>
+<p><code>./run_pytorch.sh</code> 执行脚本</p>
 <h2 id="多GPU启动："><a href="#多GPU启动：" class="headerlink" title="多GPU启动："></a>多GPU启动：</h2><p><code>python -m torch.distributed.launch --nproc_per_node=4 GAN_face.py</code></p>
 <h2 id="退出并关闭python程序："><a href="#退出并关闭python程序：" class="headerlink" title="退出并关闭python程序："></a>退出并关闭python程序：</h2><p><strong>ctrl+c</strong> 退出</p>
 <p><code>ps -ef | grep python</code> 查看运行的python程序</p>
 <p><code>kill -9 ID</code> 关闭python进程</p>
-<h2 id="TensorBoard"><a href="#TensorBoard" class="headerlink" title="TensorBoard:"></a>TensorBoard:</h2><p><code>tensorboard --logdir=save --port=6006</code></p>
+<h2 id="TensorBoard服务器运行"><a href="#TensorBoard服务器运行" class="headerlink" title="TensorBoard服务器运行:"></a>TensorBoard服务器运行:</h2><div class="highlight-container" data-rel="Python"><figure class="iseeu highlight python"><table><tr><td class="code"><pre><span class="line"><span class="keyword">from</span> torch.utils.tensorboard <span class="keyword">import</span> SummaryWriter</span><br><span class="line">writer = SummaryWriter(<span class="string">&#x27;save&#x27;</span>) <span class="comment">#建立一个保存数据用的东西，save是输出的文件名</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># 数据写入tensorboard</span></span><br><span class="line">writer.add_scalar(tag=<span class="string">&quot;dice/valid&quot;</span>, scalar_value=np.mean(valid_dice_list),</span><br><span class="line">                          global_step=epoch + <span class="number">1</span>)</span><br><span class="line"></span><br></pre></td></tr></table></figure></div>
+
+<p><code>tensorboard --logdir=save --port=6006</code> 启动并在本地浏览器localhost:6006查看</p>
 ]]></content>
       <categories>
         <category>技术</category>

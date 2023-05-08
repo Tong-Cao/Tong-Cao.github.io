@@ -30,7 +30,7 @@
 <meta property="og:description" content="常用操作：cd .. 返回文件上一级 rm -f filename 删除文件 mv file1 file2 将文件一移动到文件二里 cp file1 file2 文件复制 cp -r file1 file2 文件夹复制（..&#x2F; 上一级文件夹） rz 传文件到服务器或者直接拖动文件放进Xshell窗口 sz filename 从服务器下载文件到本地 vim使用：vim filename a 进入编辑">
 <meta property="og:locale" content="en_US">
 <meta property="article:published_time" content="2023-04-30T11:38:07.000Z">
-<meta property="article:modified_time" content="2023-05-02T03:48:09.175Z">
+<meta property="article:modified_time" content="2023-05-08T10:05:37.863Z">
 <meta property="article:author" content="John Doe">
 <meta property="article:tag" content="vim">
 <meta property="article:tag" content="linux">
@@ -220,8 +220,8 @@
     
         <span class="article-date article-meta-item">
             <i class="fa-regular fa-wrench"></i>&nbsp;
-            <span class="desktop">2023-05-02 11:48:09</span>
-            <span class="mobile">2023-05-02 11:48</span>
+            <span class="desktop">2023-05-08 18:05:37</span>
+            <span class="mobile">2023-05-08 18:05</span>
             <span class="hover-info">Updated</span>
         </span>
     
@@ -286,11 +286,21 @@
 <p><strong>a</strong> 进入编辑模式</p>
 <p><strong>Esc</strong> 进入命令模式</p>
 <p><code>：wq</code>保存并退出</p>
+<h2 id="screen使用："><a href="#screen使用：" class="headerlink" title="screen使用："></a>screen使用：</h2><p><code>yum install -y screen</code> screen安装</p>
+<p><code>screen -S name</code> 创建新窗口</p>
+<p><strong>ctrl + a + d</strong>  或 <code>screen -d</code> 退出当前窗口</p>
+<p><code>exit</code> 退出程序并关闭窗口</p>
+<p><code>screen -ls</code> 查看窗口</p>
+<p><code>screen -r id_or_name</code>  重新连接窗口</p>
+<h2 id="脚本运行："><a href="#脚本运行：" class="headerlink" title="脚本运行："></a>脚本运行：</h2><p><code>chmod +x run_pytorch.sh</code> 使得脚本可以运行</p>
+<p><code>./run_pytorch.sh</code> 执行脚本</p>
 <h2 id="多GPU启动："><a href="#多GPU启动：" class="headerlink" title="多GPU启动："></a>多GPU启动：</h2><p><code>python -m torch.distributed.launch --nproc_per_node=4 GAN_face.py</code></p>
 <h2 id="退出并关闭python程序："><a href="#退出并关闭python程序：" class="headerlink" title="退出并关闭python程序："></a>退出并关闭python程序：</h2><p><strong>ctrl+c</strong> 退出</p>
 <p><code>ps -ef | grep python</code> 查看运行的python程序</p>
 <p><code>kill -9 ID</code> 关闭python进程</p>
-<h2 id="TensorBoard"><a href="#TensorBoard" class="headerlink" title="TensorBoard:"></a>TensorBoard:</h2><p><code>tensorboard --logdir=save --port=6006</code></p>
+<h2 id="TensorBoard服务器运行"><a href="#TensorBoard服务器运行" class="headerlink" title="TensorBoard服务器运行:"></a>TensorBoard服务器运行:</h2><div class="highlight-container" data-rel="Python"><figure class="iseeu highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">from</span> torch.utils.tensorboard <span class="keyword">import</span> SummaryWriter</span><br><span class="line">writer = SummaryWriter(<span class="string">&#x27;save&#x27;</span>) <span class="comment">#建立一个保存数据用的东西，save是输出的文件名</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># 数据写入tensorboard</span></span><br><span class="line">writer.add_scalar(tag=<span class="string">&quot;dice/valid&quot;</span>, scalar_value=np.mean(valid_dice_list),</span><br><span class="line">                          global_step=epoch + <span class="number">1</span>)</span><br><span class="line"></span><br></pre></td></tr></table></figure></div>
+
+<p><code>tensorboard --logdir=save --port=6006</code> 启动并在本地浏览器localhost:6006查看</p>
 
             </div>
 
@@ -303,7 +313,7 @@
         <li><strong>Created at:</strong> 2023-04-30 19:38:07</li>
         
             <li>
-                <strong>Updated at:</strong> 2023-05-02 11:48:09
+                <strong>Updated at:</strong> 2023-05-08 18:05:37
             </li>
         
         <li>
@@ -410,7 +420,7 @@
     <div class="post-toc">
         <div class="toc-title">On this page</div>
         <div class="page-title">服务器常用命令</div>
-        <ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%B8%B8%E7%94%A8%E6%93%8D%E4%BD%9C%EF%BC%9A"><span class="nav-text">常用操作：</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#vim%E4%BD%BF%E7%94%A8%EF%BC%9A"><span class="nav-text">vim使用：</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%A4%9AGPU%E5%90%AF%E5%8A%A8%EF%BC%9A"><span class="nav-text">多GPU启动：</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E9%80%80%E5%87%BA%E5%B9%B6%E5%85%B3%E9%97%ADpython%E7%A8%8B%E5%BA%8F%EF%BC%9A"><span class="nav-text">退出并关闭python程序：</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#TensorBoard"><span class="nav-text">TensorBoard:</span></a></li></ol>
+        <ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%B8%B8%E7%94%A8%E6%93%8D%E4%BD%9C%EF%BC%9A"><span class="nav-text">常用操作：</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#vim%E4%BD%BF%E7%94%A8%EF%BC%9A"><span class="nav-text">vim使用：</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#screen%E4%BD%BF%E7%94%A8%EF%BC%9A"><span class="nav-text">screen使用：</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E8%84%9A%E6%9C%AC%E8%BF%90%E8%A1%8C%EF%BC%9A"><span class="nav-text">脚本运行：</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%A4%9AGPU%E5%90%AF%E5%8A%A8%EF%BC%9A"><span class="nav-text">多GPU启动：</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E9%80%80%E5%87%BA%E5%B9%B6%E5%85%B3%E9%97%ADpython%E7%A8%8B%E5%BA%8F%EF%BC%9A"><span class="nav-text">退出并关闭python程序：</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#TensorBoard%E6%9C%8D%E5%8A%A1%E5%99%A8%E8%BF%90%E8%A1%8C"><span class="nav-text">TensorBoard服务器运行:</span></a></li></ol>
 
     </div>
 </div>
