@@ -125,7 +125,7 @@
 <p>可将TensorRT模型通过如下方法保存并加载：</p>
 <div class="highlight-container" data-rel="Python"><figure class="iseeu highlight python"><table><tr><td class="code"><pre><span class="line">torch.save(model_trt.state_dict(), <span class="string">&#x27;alexnet_trt.pth&#x27;</span>)</span><br><span class="line"> </span><br><span class="line"> </span><br><span class="line"><span class="keyword">from</span> torch2trt <span class="keyword">import</span> TRTModule</span><br><span class="line"> </span><br><span class="line">model_trt = TRTModule()</span><br><span class="line"> </span><br><span class="line">model_trt.load_state_dict(torch.load(<span class="string">&#x27;alexnet_trt.pth&#x27;</span>))</span><br><span class="line"></span><br><span class="line">y = model(x)</span><br><span class="line">y_trt = model_trt(x)</span><br><span class="line"> </span><br><span class="line"><span class="comment"># check the output against PyTorch</span></span><br><span class="line"><span class="built_in">print</span>(torch.<span class="built_in">max</span>(torch.<span class="built_in">abs</span>(y - y_trt)))</span><br></pre></td></tr></table></figure></div>
 
-<p>模型默认转化精度为<strong>FP32</strong>，如果需要使用<strong>FP16</strong>可进行如下修改**(int8精度暂时不支持，可能和硬件有关系)**</p>
+<p>模型默认转化精度为<strong>FP32</strong>，如果需要使用<strong>FP16</strong>可进行如下修改(<strong>int8精度暂时不支持，可能和硬件有关系</strong>)</p>
 <div class="highlight-container" data-rel="Python"><figure class="iseeu highlight python"><table><tr><td class="code"><pre><span class="line">model_trt = torch2trt(model, [x]，fp16_mode=<span class="literal">True</span>)</span><br></pre></td></tr></table></figure></div>
 
 
