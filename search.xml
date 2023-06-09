@@ -108,4 +108,31 @@
         <tag>GPU</tag>
       </tags>
   </entry>
+  <entry>
+    <title>TensorRT加速模型</title>
+    <url>/2023/06/09/TensorRT%E5%8A%A0%E9%80%9F%E6%A8%A1%E5%9E%8B/</url>
+    <content><![CDATA[<h1 id="TensorRT的安装"><a href="#TensorRT的安装" class="headerlink" title="TensorRT的安装"></a>TensorRT的安装</h1><p><strong>Jetson Xavier NX</strong> 配置过程中使用官网给出工具来安装<strong>TensorRT</strong>，一开始TensorRT的版本为<strong>8.x</strong>可能会导致后面报错，需要将版本降低为<strong>7.x</strong>。 </p>
+<p>安装完<strong>TensorRT</strong>无法在<strong>python</strong>中导入可参考这篇文章：<a class="link"   href="http://t.csdn.cn/6J5tL" >http://t.csdn.cn/6J5tL <i class="fa-regular fa-arrow-up-right-from-square fa-sm"></i></a></p>
+<p>此方法只能在<strong>python3.6</strong>中使用<strong>TensorRT</strong>，暂未找到在其他版本中使用<strong>TensorRT</strong>的方法</p>
+<h1 id="torch2trt的使用"><a href="#torch2trt的使用" class="headerlink" title="torch2trt的使用"></a>torch2trt的使用</h1><p>在 <strong>Jetson Xavier NX</strong> 成功安装<strong>TensorRT</strong>后，我们使用<strong>torch2trt</strong>这个库直接将<strong>Pytorch</strong>模型转换为<strong>TensorRT</strong>模型。</p>
+<p>链接：<a class="link"   href="https://github.com/NVIDIA-AI-IOT/torch2trt" >https://github.com/NVIDIA-AI-IOT/torch2trt <i class="fa-regular fa-arrow-up-right-from-square fa-sm"></i></a></p>
+<p>直接使用下面方法安装：</p>
+<div class="highlight-container" data-rel="Bash"><figure class="iseeu highlight bash"><table><tr><td class="code"><pre><span class="line">git <span class="built_in">clone</span> https://github.com/NVIDIA-AI-IOT/torch2trt</span><br><span class="line"><span class="built_in">cd</span> torch2trt</span><br><span class="line">python setup.py install</span><br></pre></td></tr></table></figure></div>
+
+<p>使用如下代码进行模型转换：</p>
+<div class="highlight-container" data-rel="Python"><figure class="iseeu highlight python"><table><tr><td class="code"><pre><span class="line"><span class="keyword">import</span> torch</span><br><span class="line"><span class="keyword">from</span> torch2trt <span class="keyword">import</span> torch2trt</span><br><span class="line"><span class="keyword">from</span> torchvision.models.alexnet <span class="keyword">import</span> alexnet</span><br><span class="line"> </span><br><span class="line"><span class="comment"># create some regular pytorch model...</span></span><br><span class="line">model = alexnet(pretrained=<span class="literal">True</span>).<span class="built_in">eval</span>().cuda()</span><br><span class="line"> </span><br><span class="line"><span class="comment"># create example data</span></span><br><span class="line">x = torch.ones((<span class="number">1</span>, <span class="number">3</span>, <span class="number">224</span>, <span class="number">224</span>)).cuda()</span><br><span class="line"> </span><br><span class="line"><span class="comment"># convert to TensorRT feeding sample data as input</span></span><br><span class="line">model_trt = torch2trt(model, [x])</span><br></pre></td></tr></table></figure></div>
+
+<p>可将TensorRT模型通过如下方法保存并加载：</p>
+<div class="highlight-container" data-rel="Python"><figure class="iseeu highlight python"><table><tr><td class="code"><pre><span class="line">torch.save(model_trt.state_dict(), <span class="string">&#x27;alexnet_trt.pth&#x27;</span>)</span><br><span class="line"> </span><br><span class="line"> </span><br><span class="line"><span class="keyword">from</span> torch2trt <span class="keyword">import</span> TRTModule</span><br><span class="line"> </span><br><span class="line">model_trt = TRTModule()</span><br><span class="line"> </span><br><span class="line">model_trt.load_state_dict(torch.load(<span class="string">&#x27;alexnet_trt.pth&#x27;</span>))</span><br><span class="line"></span><br><span class="line">y = model(x)</span><br><span class="line">y_trt = model_trt(x)</span><br><span class="line"> </span><br><span class="line"><span class="comment"># check the output against PyTorch</span></span><br><span class="line"><span class="built_in">print</span>(torch.<span class="built_in">max</span>(torch.<span class="built_in">abs</span>(y - y_trt)))</span><br></pre></td></tr></table></figure></div>
+
+<p>模型默认转化精度为<strong>FP32</strong>，如果需要使用<strong>FP16</strong>可进行如下修改**(int8精度暂时不支持，可能和硬件有关系)**</p>
+<div class="highlight-container" data-rel="Python"><figure class="iseeu highlight python"><table><tr><td class="code"><pre><span class="line">model_trt = torch2trt(model, [x]，fp16_mode=<span class="literal">True</span>)</span><br></pre></td></tr></table></figure></div>
+
+
+
+]]></content>
+      <tags>
+        <tag>-TensorRT</tag>
+      </tags>
+  </entry>
 </search>
