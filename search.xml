@@ -141,17 +141,22 @@
 
 ]]></content>
       <tags>
-        <tag>-TensorRT</tag>
+        <tag>TensorRT</tag>
       </tags>
   </entry>
   <entry>
     <title>hexo命令</title>
     <url>/2023/07/01/hexo%E5%91%BD%E4%BB%A4/</url>
-    <content><![CDATA[<h2 id="写作"><a href="#写作" class="headerlink" title="写作"></a>写作</h2><div class="highlight-container" data-rel="Bash"><figure class="iseeu highlight bash"><table><tr><td class="code"><pre><span class="line">hexo new title</span><br></pre></td></tr></table></figure></div>
+    <content><![CDATA[<h2 id="写作"><a href="#写作" class="headerlink" title="写作"></a>写作</h2><p>创建title.md文件</p>
+<div class="highlight-container" data-rel="Bash"><figure class="iseeu highlight bash"><table><tr><td class="code"><pre><span class="line">hexo new title</span><br></pre></td></tr></table></figure></div>
 
-<p>创建title.md文件</p>
+
+
 <h2 id="推送"><a href="#推送" class="headerlink" title="推送"></a>推送</h2><p>生成</p>
 <div class="highlight-container" data-rel="Bash"><figure class="iseeu highlight bash"><table><tr><td class="code"><pre><span class="line">hexo g</span><br></pre></td></tr></table></figure></div>
+
+<p>本地启动服务查看</p>
+<div class="highlight-container" data-rel="Bash"><figure class="iseeu highlight bash"><table><tr><td class="code"><pre><span class="line">hexo s</span><br></pre></td></tr></table></figure></div>
 
 <p>部署</p>
 <div class="highlight-container" data-rel="Bash"><figure class="iseeu highlight bash"><table><tr><td class="code"><pre><span class="line">hexo d</span><br></pre></td></tr></table></figure></div>
