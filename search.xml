@@ -205,4 +205,20 @@
         <tag>命令</tag>
       </tags>
   </entry>
+  <entry>
+    <title>日记测试</title>
+    <url>/2023/07/06/%E6%97%A5%E8%AE%B0%E6%B5%8B%E8%AF%95/</url>
+    <content><![CDATA[<div class="hbe hbe-container" id="hexo-blog-encrypt" data-wpm="Oh, this is an invalid password. Check and try again, please." data-whm="OOPS, these decrypted content may changed, but you can still have a look.">
+  <script id="hbeData" type="hbeData" data-hmacdigest="bb7a1a2b9bc7e17e1b4f1211435f2fce6f79ef1420bce8020a9402b6ca113b6d">165d50f05814027fb7fe5e4ae8a088d8fd6df50b4902873b1999a89b04144f60b37c9bd0592609f93fb8665a41937ad4f5060f9657852410992633577a77a1f6</script>
+  <div class="hbe hbe-content">
+    <div class="hbe hbe-input hbe-input-default">
+      <input class="hbe hbe-input-field hbe-input-field-default" type="password" id="hbePass">
+      <label class="hbe hbe-input-label hbe-input-label-default" for="hbePass">
+        <span class="hbe hbe-input-label-content hbe-input-label-content-default">输入密码</span>
+      </label>
+    </div>
+  </div>
+</div>
+<script data-pjax src="/lib/hbe.js"></script><link href="/css/hbe.style.css" rel="stylesheet" type="text/css">]]></content>
+  </entry>
 </search>
