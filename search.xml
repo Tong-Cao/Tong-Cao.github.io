@@ -141,6 +141,7 @@
     <content><![CDATA[<h1 id="TensorRT的安装"><a href="#TensorRT的安装" class="headerlink" title="TensorRT的安装"></a>TensorRT的安装</h1><p><strong>Jetson Xavier NX</strong> 配置过程中使用官网给出工具来安装<strong>TensorRT</strong>，一开始TensorRT的版本为<strong>8.x</strong>可能会导致后面报错，需要将版本降低为<strong>7.x</strong>。 </p>
 <p>安装完<strong>TensorRT</strong>无法在<strong>python</strong>中导入可参考这篇文章：<a class="link"   href="http://t.csdn.cn/6J5tL" >http://t.csdn.cn/6J5tL <i class="fa-regular fa-arrow-up-right-from-square fa-sm"></i></a></p>
 <p>此方法只能在<strong>python3.6</strong>中使用<strong>TensorRT</strong>，暂未找到在其他版本中使用<strong>TensorRT</strong>的方法</p>
+<p>（python版本的<a class="link"   href="https://so.csdn.net/so/search?q=tensorRT&spm=1001.2101.3001.7020" >tensorRT <i class="fa-regular fa-arrow-up-right-from-square fa-sm"></i></a>是跟随jetpack已经安装好的，但是在编译的时候只适配了python2.7和python3.6版本，也就是jetpack自带的python版本，参考这篇文章：<a class="link"   href="http://t.csdn.cn/TWrHU%EF%BC%89" >http://t.csdn.cn/TWrHU） <i class="fa-regular fa-arrow-up-right-from-square fa-sm"></i></a></p>
 <h1 id="torch2trt的使用"><a href="#torch2trt的使用" class="headerlink" title="torch2trt的使用"></a>torch2trt的使用</h1><p>在 <strong>Jetson Xavier NX</strong> 成功安装<strong>TensorRT</strong>后，我们使用<strong>torch2trt</strong>这个库直接将<strong>Pytorch</strong>模型转换为<strong>TensorRT</strong>模型。</p>
 <p>链接：<a class="link"   href="https://github.com/NVIDIA-AI-IOT/torch2trt" >https://github.com/NVIDIA-AI-IOT/torch2trt <i class="fa-regular fa-arrow-up-right-from-square fa-sm"></i></a></p>
 <p>直接使用下面方法安装：</p>
