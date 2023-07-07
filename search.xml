@@ -162,7 +162,12 @@
 <li><p>报错：<strong>AttributeError: ‘Tensor’ object has no attribute ‘_trt’</strong></p>
 <p>我们遇到的问题是，直接加载多GPU训练保存的模型后出现上述错误，应该是多GPU训练保存模型layer名称字典中多出了一个module。</p>
 <p>解决办法：将模型的module提取出来</p>
-<div class="highlight-container" data-rel="Python"><figure class="iseeu highlight python"><table><tr><td class="code"><pre><span class="line">model = torch.load(PATH)</span><br><span class="line">model = model.module <span class="comment">#提取module属性</span></span><br></pre></td></tr></table></figure></div></li>
+<div class="highlight-container" data-rel="Python"><figure class="iseeu highlight python"><table><tr><td class="code"><pre><span class="line">model = torch.load(PATH)</span><br><span class="line">model = model.module <span class="comment">#提取module属性</span></span><br></pre></td></tr></table></figure></div>
+</li>
+<li><p><strong>在转换模型时python程序被强制杀死，显示：killed</strong></p>
+<p>原因：内存不够</p>
+<p>解决办法：设置虚拟内存swap。其实目的就是为了在内存条的容量不够的时候，用硬盘上临时画出来的空间来代替内存条。</p>
+<div class="highlight-container" data-rel="Bash"><figure class="iseeu highlight bash"><table><tr><td class="code"><pre><span class="line"><span class="comment"># 找个固定的位置，新建一个文件夹</span></span><br><span class="line"><span class="built_in">mkdir</span> swap</span><br><span class="line"><span class="comment"># 设置虚拟内存大小，count就是内存大小（16G）</span></span><br><span class="line">sudo <span class="built_in">dd</span> <span class="keyword">if</span>=/dev/zero of=swapfile bs=1073741824 count=16</span><br><span class="line"><span class="comment"># 这步执行成功会输出一个UUID的号</span></span><br><span class="line">sudo mkswap swapfile</span><br><span class="line"><span class="comment"># 最后一步，这一步执行时间较长，不要着急，耐心等待</span></span><br><span class="line">sudo swapon swapfile</span><br><span class="line"><span class="comment"># 成功后使用top命令测试下，swap那一项就是虚拟内存空间</span></span><br><span class="line">top</span><br></pre></td></tr></table></figure></div></li>
 </ul>
 ]]></content>
       <tags>
