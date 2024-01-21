@@ -1,0 +1,681 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="keywords" content="Hexo Theme Redefine">
+    
+    <meta name="author" content="Tong">
+    <!-- preconnect -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    
+    
+        
+            <link rel="preconnect" href="https://npm.elemecdn.com" crossorigin>
+        
+    
+    <!--- Seo Part-->
+    
+    <link rel="canonical" href="http://example.com/2023/04/30/ssd目标检测/"/>
+    <meta name="robots" content="index,follow">
+    <meta name="googlebot" content="index,follow">
+    <meta name="revisit-after" content="1 days">
+    
+        <meta name="description" content="数据集以及锚框的处理数据集：图像：（batch_size , channel , height , width） bounding box: （batch_size , m , 5） m: 图像中可能出现的最多边界框的数目 5： 第一个数据为边界框对应的种类，对于少于m个边界框的图像，为了保持数据的统一，需要填充非法边界框，此时将其标为-1，并在后面计算中舍弃。剩余四个数据为边界框的左上角和右下角">
+<meta property="og:type" content="article">
+<meta property="og:title" content="SSD目标检测">
+<meta property="og:url" content="http://example.com/2023/04/30/SSD%E7%9B%AE%E6%A0%87%E6%A3%80%E6%B5%8B/index.html">
+<meta property="og:site_name" content="Hexo">
+<meta property="og:description" content="数据集以及锚框的处理数据集：图像：（batch_size , channel , height , width） bounding box: （batch_size , m , 5） m: 图像中可能出现的最多边界框的数目 5： 第一个数据为边界框对应的种类，对于少于m个边界框的图像，为了保持数据的统一，需要填充非法边界框，此时将其标为-1，并在后面计算中舍弃。剩余四个数据为边界框的左上角和右下角">
+<meta property="og:locale" content="en_US">
+<meta property="og:image" content="http://example.com/images/ssd1.png">
+<meta property="og:image" content="http://example.com/images/ssd2.png">
+<meta property="og:image" content="http://example.com/images/ssd3.png">
+<meta property="article:published_time" content="2023-04-30T11:38:07.000Z">
+<meta property="article:modified_time" content="2023-05-02T03:48:26.524Z">
+<meta property="article:author" content="John Doe">
+<meta property="article:tag" content="深度学习">
+<meta property="article:tag" content="目标检测">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="http://example.com/images/ssd1.png">
+    
+    
+    <!--- Icon Part-->
+    <link rel="icon" type="image/png" href="/images/nezha.webp" sizes="192x192">
+    <link rel="apple-touch-icon" sizes="180x180" href="/images/nezha.webp">
+    <meta name="theme-color" content="#A31F34">
+    <link rel="shortcut icon" href="/images/nezha.webp">
+    <!--- Page Info-->
+    
+    <title>
+        
+            SSD目标检测 -
+        
+        Tong&#39;s Blog
+    </title>
+    
+<link rel="stylesheet" href="/css/style.css">
+
+    <link rel="stylesheet" href="//npm.elemecdn.com/hexo-theme-redefine@2.1.3/source/assets/fonts.css">
+    <!--- Font Part-->
+    
+    
+    
+    
+
+    <!--- Inject Part-->
+    
+    <script id="hexo-configurations">
+    let Global = window.Global || {};
+    Global.hexo_config = {"hostname":"example.com","root":"/","language":"en","path":"search.xml"};
+    Global.theme_config = {"articles":{"style":{"font_size":"16px","line_height":1.5,"image_border_radius":"14px","image_alignment":"center","image_caption":false,"link_icon":true},"word_count":{"enable":true,"count":true,"min2read":true},"author_label":{"enable":true,"auto":false,"list":[""]},"code_block":{"copy":true,"style":"mac","font":{"enable":false,"family":null,"url":null}},"toc":{"enable":true,"max_depth":3,"number":false,"expand":true,"init_open":true},"copyright":true,"lazyload":true,"recommendation":{"enable":false,"title":"推荐阅读","limit":3,"placeholder":"/images/wallhaven-wqery6-light.webp","skip_dirs":[]}},"colors":{"primary":"#A31F34","secondary":null},"global":{"fonts":{"chinese":{"enable":false,"family":null,"url":null},"english":{"enable":false,"family":null,"url":null}},"content_max_width":"1000px","sidebar_width":"210px","hover":{"shadow":true,"scale":false},"scroll_progress":{"bar":false,"percentage":true},"busuanzi_counter":{"enable":true,"site_pv":true,"site_uv":true,"post_pv":true},"pjax":true,"open_graph":true,"google_analytics":{"enable":false,"id":null}},"home_banner":{"enable":true,"style":"fixed","image":{"light":"/images/test2.jpg","dark":"/images/wallhaven-wqery6-dark.webp"},"title":"Tong's Blog","subtitle":{"text":["不管怎样，别忘了热爱生活就好"],"hitokoto":{"enable":false,"api":"https://v1.hitokoto.cn"},"typing_speed":100,"backing_speed":80,"starting_delay":500,"backing_delay":1500,"loop":false,"smart_backspace":true},"text_color":{"light":"#fff","dark":"#d1d1b6"},"text_style":{"title_size":"2.8rem","subtitle_size":"1.5rem","line_height":1.2},"custom_font":{"enable":false,"family":null,"url":null},"social_links":{"enable":true,"links":{"github":"https://github.com/Tong-Cao","instagram":null,"zhihu":null,"twitter":null,"email":null}}},"plugins":{"feed":{"enable":false},"aplayer":{"enable":false,"type":"fixed","audios":[{"name":null,"artist":null,"url":null,"cover":null}]},"mermaid":{"enable":false,"version":"9.3.0"}},"version":"2.1.3","navbar":{"categories":{"Categories":{"icon":"fa-solid fa-folder","path":"/categories/"}},"tags":{"Tags":{"icon":"fa-solid fa-tags","path":"/tags/"}},"auto_hide":false,"color":{"left":"#f78736","right":"#367df7","transparency":35},"links":{"Home":{"path":"/","icon":"fa-regular fa-house"}},"search":{"enable":false,"preload":true}},"page_templates":{"friends_column":2,"tags_style":"cloud"},"home":{"sidebar":{"enable":true,"position":"left","first_item":"menu","announcement":null,"links":null},"article_date_format":"auto","categories":{"enable":true,"limit":3},"tags":{"enable":true,"limit":3}}};
+    Global.language_ago = {"second":"%s seconds ago","minute":"%s minutes ago","hour":"%s hours ago","day":"%s days ago","week":"%s weeks ago","month":"%s months ago","year":"%s years ago"};
+  </script>
+    
+    <!--- Fontawesome Part-->
+    <link rel="stylesheet" href="//npm.elemecdn.com/hexo-theme-redefine@2.1.3/source/fontawesome/fontawesome.min.css">
+    <link rel="stylesheet" href="//npm.elemecdn.com/hexo-theme-redefine@2.1.3/source/fontawesome/brands.min.css">
+    <link rel="stylesheet" href="//npm.elemecdn.com/hexo-theme-redefine@2.1.3/source/fontawesome/solid.min.css">
+    <link rel="stylesheet" href="//npm.elemecdn.com/hexo-theme-redefine@2.1.3/source/fontawesome/regular.min.css">
+    
+    
+    
+    
+<meta name="generator" content="Hexo 6.3.0"></head>
+
+
+<body>
+<div class="progress-bar-container">
+    
+
+    
+        <span class="pjax-progress-bar"></span>
+        <span class="pjax-progress-icon">
+            <i class="fa-solid fa-circle-notch fa-spin"></i>
+        </span>
+    
+</div>
+
+
+<main class="page-container">
+
+    
+
+    <div class="main-content-container">
+
+        <div class="main-content-header">
+            <header class="navbar-container">
+    
+    <div class="navbar-content">
+        <div class="left">
+            
+            <a class="logo-title" href="/">
+                
+                Tong&#39;s Blog
+                
+            </a>
+        </div>
+
+        <div class="right">
+            <!-- PC -->
+            <div class="desktop">
+                <ul class="navbar-list">
+                    
+                        
+                            <li class="navbar-item">
+                                <!-- Menu -->
+                                <a class="" 
+                                    href="/"  >
+                                    
+                                        
+                                            <i class="fa-regular fa-house"></i>
+                                        
+                                        HOME
+                                    
+                                </a>
+                                <!-- Submenu -->
+                                
+                            </li>
+                    
+                    
+                </ul>
+            </div>
+            <!-- Mobile -->
+            <div class="mobile">
+                
+                <div class="icon-item navbar-bar">
+                    <div class="navbar-bar-middle"></div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Mobile drawer -->
+    <div class="navbar-drawer">
+        <ul class="drawer-navbar-list">
+            
+                
+                    <li class="drawer-navbar-item flex-center">
+                        <a class="" 
+                        href="/"  >
+                             
+                                
+                                    <i class="fa-regular fa-house"></i>
+                                
+                                HOME
+                            
+                        </a>
+                    </li>
+                    <!-- Submenu -->
+                    
+            
+
+        </ul>
+    </div>
+
+    <div class="window-mask"></div>
+
+</header>
+
+
+        </div>
+
+        <div class="main-content-body">
+
+            
+
+            <div class="main-content">
+
+                
+                    <div class="fade-in-down-animation">
+    <div class="post-page-container">
+        <div class="article-content-container">
+
+            
+            
+                <div class="article-title">
+                    <h1 class="article-title-regular">SSD目标检测</h1>
+                </div>
+            
+                
+            
+
+            
+                <div class="article-header">
+                    <div class="avatar">
+                        <img src="/images/nezha.webp">
+                    </div>
+                    <div class="info">
+                        <div class="author">
+                            <span class="name">Tong</span>
+                            
+                                <span class="author-label"></span>
+                            
+                        </div>
+                        <div class="meta-info">
+                            <div class="article-meta-info">
+    <span class="article-date article-meta-item">
+        <i class="fa-regular fa-pen-fancy"></i>&nbsp;
+        <span class="desktop">2023-04-30 19:38:07</span>
+        <span class="mobile">2023-04-30 19:38</span>
+        <span class="hover-info">Created</span>
+    </span>
+    
+        <span class="article-date article-meta-item">
+            <i class="fa-regular fa-wrench"></i>&nbsp;
+            <span class="desktop">2023-05-02 11:48:26</span>
+            <span class="mobile">2023-05-02 11:48</span>
+            <span class="hover-info">Updated</span>
+        </span>
+    
+
+    
+        <span class="article-categories article-meta-item">
+            <i class="fa-regular fa-folders"></i>&nbsp;
+            <ul>
+                
+                    <li>
+                        <a href="/categories/%E6%B7%B1%E5%BA%A6%E5%AD%A6%E4%B9%A0/">深度学习</a>&nbsp;
+                    </li>
+                
+                    <li>
+                        &gt; <a href="/categories/%E6%B7%B1%E5%BA%A6%E5%AD%A6%E4%B9%A0/%E7%9B%AE%E6%A0%87%E6%A3%80%E6%B5%8B/">目标检测</a>&nbsp;
+                    </li>
+                
+            </ul>
+        </span>
+    
+    
+        <span class="article-tags article-meta-item">
+            <i class="fa-regular fa-tags"></i>&nbsp;
+            <ul>
+                
+                    <li>
+                        <a href="/tags/%E6%B7%B1%E5%BA%A6%E5%AD%A6%E4%B9%A0/">深度学习</a>&nbsp;
+                    </li>
+                
+                    <li>
+                        | <a href="/tags/%E7%9B%AE%E6%A0%87%E6%A3%80%E6%B5%8B/">目标检测</a>&nbsp;
+                    </li>
+                
+            </ul>
+        </span>
+    
+
+    
+    
+    
+    
+        <span class="article-pv article-meta-item">
+            <i class="fa-regular fa-eye"></i>&nbsp;<span id="busuanzi_value_page_pv"></span>
+        </span>
+    
+</div>
+
+                        </div>
+                    </div>
+                </div>
+            
+
+            <div class="article-content markdown-body">
+                <h2 id="数据集以及锚框的处理"><a href="#数据集以及锚框的处理" class="headerlink" title="数据集以及锚框的处理"></a>数据集以及锚框的处理</h2><h3 id="数据集："><a href="#数据集：" class="headerlink" title="数据集："></a>数据集：</h3><p><strong>图像：（batch_size , channel , height , width）</strong></p>
+<p><strong>bounding box: （batch_size , m , 5）</strong></p>
+<p><strong>m:</strong> 图像中可能出现的最多边界框的数目</p>
+<p><strong>5：</strong> 第一个数据为边界框对应的种类，对于少于m个边界框的图像，为了保持数据的统一，需要填充非法边界框，此时将其标为-1，并在后面计算中舍弃。剩余四个数据为边界框的左上角和右下角坐标。</p>
+<h3 id="在训练数据中标注锚框："><a href="#在训练数据中标注锚框：" class="headerlink" title="在训练数据中标注锚框："></a>在训练数据中标注锚框：</h3><p>在训练集中，我们将每个锚框视为一个训练样本。</p>
+<p>首先，在图片中使用不同的方法生成大量锚框。接着使用数据集中的真实边界框与锚框的交并比来为每一个锚框标记类别和偏移量。</p>
+<h2 id="SSD模型"><a href="#SSD模型" class="headerlink" title="SSD模型"></a>SSD模型</h2><h3 id="模型结构："><a href="#模型结构：" class="headerlink" title="模型结构："></a>模型结构：</h3><p>首先，使用基本网络块从图像中抽取特征，再逐步将其使用卷积和池化将特征图宽高减半，最终使用全局最大池将高度和宽度都降到1。</p>
+<h3 id="锚框构造："><a href="#锚框构造：" class="headerlink" title="锚框构造："></a>锚框构造：</h3><p>我们对每一个特征图的每一个像素生成不同宽高比的锚框。当特征图尺寸越小，映射到原图的锚框越大，这样我们可以搜素不同大小的物体。<br><img  
+                     lazyload
+                     src="/images/loading.svg"
+                     data-src="/images/ssd1.png"
+                      alt="ssd1"
+                ></p>
+<p> <img  
+                     lazyload
+                     src="/images/loading.svg"
+                     data-src="/images/ssd2.png"
+                      alt="ssd2"
+                ></p>
+<h3 id="锚框的种类和偏移量预测："><a href="#锚框的种类和偏移量预测：" class="headerlink" title="锚框的种类和偏移量预测："></a>锚框的种类和偏移量预测：</h3><p>对于种类和偏移量的预测使用不同通道来表示：</p>
+<p>具体来说对于一个<strong>2x2</strong>的特征图假设每一个像素生成<strong>3</strong>个锚框，对于这个特征图一共有<strong>12</strong>个锚框。假设我们一共要预测<strong>3</strong>个种类，我们使用卷积生成 <strong>12x(3+1)<strong>（+1是指将锚框标注为背景） 个通道的</strong>2x2</strong>结果。例如第一个通道的第一个像素表示为特征图第一个像素生成的第一个锚框预测为第一个种类的概率。</p>
+<p>相同的我们对偏移量的预测一共生成<strong>12x4</strong>个通道来表示预测结果。</p>
+<p>&amp;nbsp;</p>
+<p><strong>最终网络如下所示：</strong></p>
+<p><img  
+                     lazyload
+                     src="/images/loading.svg"
+                     data-src="/images/ssd3.png"
+                      alt="ssd3"
+                ></p>
+<p>我们使用交叉熵损失函数来对每一个锚框的预测种类和真实值求loss，对于每一个锚框的偏移量使用L1范数损失来求其loss。</p>
+
+            </div>
+
+            
+                <div class="post-copyright-info">
+                    <div class="article-copyright-info-container">
+    <ul>
+        <li><strong>Title:</strong> SSD目标检测</li>
+        <li><strong>Author:</strong> Tong</li>
+        <li><strong>Created at:</strong> 2023-04-30 19:38:07</li>
+        
+            <li>
+                <strong>Updated at:</strong> 2023-05-02 11:48:26
+            </li>
+        
+        <li>
+            <strong>Link:</strong> https://github.com/Tong-Cao/Tong-Cao.github.io.git/2023/04/30/SSD目标检测/
+        </li>
+        <li>
+            <strong>License:</strong> This work is licensed under <a class="license" target="_blank" rel="noopener" href="https://creativecommons.org/licenses/by-nc-sa/4.0/deed.zh">CC BY-NC-SA 4.0</a>.
+        </li>
+    </ul>
+</div>
+
+                </div>
+            
+
+            
+                <ul class="post-tags-box">
+                    
+                        <li class="tag-item">
+                            <a href="/tags/%E6%B7%B1%E5%BA%A6%E5%AD%A6%E4%B9%A0/">#深度学习</a>&nbsp;
+                        </li>
+                    
+                        <li class="tag-item">
+                            <a href="/tags/%E7%9B%AE%E6%A0%87%E6%A3%80%E6%B5%8B/">#目标检测</a>&nbsp;
+                        </li>
+                    
+                </ul>
+            
+
+            
+
+            
+                <div class="article-nav">
+                    
+                        <div class="article-prev">
+                            <a class="prev"
+                            rel="prev"
+                            href="/2023/05/05/%E5%A4%9AGPU%E8%AE%AD%E7%BB%83/"
+                            >
+                                <span class="left arrow-icon flex-center">
+                                    <i class="fa-solid fa-chevron-left"></i>
+                                </span>
+                                <span class="title flex-center">
+                                    <span class="post-nav-title-item">多GPU训练</span>
+                                    <span class="post-nav-item">Prev posts</span>
+                                </span>
+                            </a>
+                        </div>
+                    
+                    
+                        <div class="article-next">
+                            <a class="next"
+                            rel="next"
+                            href="/2023/04/30/%E6%9C%8D%E5%8A%A1%E5%99%A8%E5%B8%B8%E7%94%A8%E5%91%BD%E4%BB%A4/"
+                            >
+                                <span class="title flex-center">
+                                    <span class="post-nav-title-item">服务器常用命令</span>
+                                    <span class="post-nav-item">Next posts</span>
+                                </span>
+                                <span class="right arrow-icon flex-center">
+                                    <i class="fa-solid fa-chevron-right"></i>
+                                </span>
+                            </a>
+                        </div>
+                    
+                </div>
+            
+
+
+            
+                <div class="comment-container">
+                    <div class="comments-container">
+    <div id="comment-anchor"></div>
+    <div class="comment-area-title">
+        <i class="fa-solid fa-comments"></i>&nbsp;Comments
+    </div>
+    
+
+        
+            
+ 
+    <div id="waline"></div>
+    <script type="module"  data-pjax>
+        import { init } from 'https://evan.beee.top/js/waline.mjs';
+
+        function loadWaline() {
+            init({
+                el: '#waline',
+                serverURL: 'https://example.example.com',
+                lang: 'zh-CN',
+                dark: 'body[class~="dark-mode"]',
+                requiredMeta: ['nick','mail'], // cannot customize by theme config, change it yourself
+            });
+        }
+
+        if ('true') {
+            const loadWalineTimeout = setTimeout(() => {
+                loadWaline();
+                clearTimeout(loadWalineTimeout);
+            }, 1000);
+        } else {
+            window.addEventListener('DOMContentLoaded', loadWaline);
+        }
+        
+    </script>
+
+
+
+        
+    
+</div>
+
+                </div>
+            
+        </div>
+
+        
+            <div class="toc-content-container">
+                <div class="post-toc-wrap">
+    <div class="post-toc">
+        <div class="toc-title">On this page</div>
+        <div class="page-title">SSD目标检测</div>
+        <ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E6%95%B0%E6%8D%AE%E9%9B%86%E4%BB%A5%E5%8F%8A%E9%94%9A%E6%A1%86%E7%9A%84%E5%A4%84%E7%90%86"><span class="nav-text">数据集以及锚框的处理</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%95%B0%E6%8D%AE%E9%9B%86%EF%BC%9A"><span class="nav-text">数据集：</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%9C%A8%E8%AE%AD%E7%BB%83%E6%95%B0%E6%8D%AE%E4%B8%AD%E6%A0%87%E6%B3%A8%E9%94%9A%E6%A1%86%EF%BC%9A"><span class="nav-text">在训练数据中标注锚框：</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#SSD%E6%A8%A1%E5%9E%8B"><span class="nav-text">SSD模型</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%A8%A1%E5%9E%8B%E7%BB%93%E6%9E%84%EF%BC%9A"><span class="nav-text">模型结构：</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E9%94%9A%E6%A1%86%E6%9E%84%E9%80%A0%EF%BC%9A"><span class="nav-text">锚框构造：</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E9%94%9A%E6%A1%86%E7%9A%84%E7%A7%8D%E7%B1%BB%E5%92%8C%E5%81%8F%E7%A7%BB%E9%87%8F%E9%A2%84%E6%B5%8B%EF%BC%9A"><span class="nav-text">锚框的种类和偏移量预测：</span></a></li></ol></li></ol>
+
+    </div>
+</div>
+            </div>
+        
+    </div>
+</div>
+
+
+                
+
+            </div>
+            
+            
+
+        </div>
+
+        <div class="main-content-footer">
+            <footer class="footer">
+    <div class="info-container">
+        <div class="copyright-info">
+            &copy;
+            
+              <span>2023</span>
+              -
+            
+            2024&nbsp;&nbsp;<i class="fa-solid fa-heart fa-beat" style="--fa-animation-duration: 0.5s; color: #f54545"></i>&nbsp;&nbsp;<a href="/">Tong</a>
+        </div>
+        
+            <script async data-pjax src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+            <div class="website-count info-item">
+                
+                    <span id="busuanzi_container_site_uv" class="busuanzi_container_site_uv">
+                        VISITOR COUNT&nbsp;<span id="busuanzi_value_site_uv" class="busuanzi_value_site_uv"></span>
+                    </span>
+                
+                
+                    <span id="busuanzi_container_site_pv" class="busuanzi_container_site_pv">
+                        TOTAL PAGE VIEWS&nbsp;<span id="busuanzi_value_site_pv" class="busuanzi_value_site_pv"></span>
+                    </span>
+                
+            </div>
+        
+        <div class="theme-info info-item">
+            <span class="powered-by-container">POWERED BY <?xml version="1.0" encoding="utf-8"?><!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.1//EN" "http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd"><svg version="1.1" id="圖層_1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px" width="1rem" height="1rem" viewBox="0 0 512 512" enable-background="new 0 0 512 512" xml:space="preserve"><path fill="#0E83CD" d="M256.4,25.8l-200,115.5L56,371.5l199.6,114.7l200-115.5l0.4-230.2L256.4,25.8z M349,354.6l-18.4,10.7l-18.6-11V275H200v79.6l-18.4,10.7l-18.6-11v-197l18.5-10.6l18.5,10.8V237h112v-79.6l18.5-10.6l18.5,10.8V354.6z"/></svg><a target="_blank" href="https://hexo.io">Hexo</a></span>
+                <br>
+            <span class="theme-version-container">THEME&nbsp;<a class="theme-version" target="_blank" href="https://github.com/EvanNotFound/hexo-theme-redefine">Redefine v2.1.3</a>
+        </div>
+        
+        
+        
+            <div id="start_div" style="display:none">
+                2023/4/30 12:00:00
+            </div>
+            <div>
+                Blog up for <span class="odometer" id="runtime_days" ></span> days <span class="odometer" id="runtime_hours"></span> hrs <span class="odometer" id="runtime_minutes"></span> Min <span class="odometer" id="runtime_seconds"></span> Sec
+            </div>
+        
+        
+        
+            <script async data-pjax>
+                try {
+                    function odometer_init() {
+                    const elements = document.querySelectorAll('.odometer');
+                    elements.forEach(el => {
+                        new Odometer({
+                            el,
+                            format: '( ddd).dd',
+                            duration: 200
+                        });
+                    });
+                    }
+                    odometer_init();
+                } catch (error) {}
+            </script>
+        
+        
+        
+    </div>  
+</footer>
+        </div>
+    </div>
+
+    
+        <div class="post-tools">
+            <div class="post-tools-container">
+    <ul class="article-tools-list">
+        <!-- TOC aside toggle -->
+        
+            <li class="right-bottom-tools page-aside-toggle">
+                <i class="fa-regular fa-outdent"></i>
+            </li>
+        
+
+        <!-- go comment -->
+        
+            <li class="go-comment">
+                <i class="fa-regular fa-comments"></i>
+            </li>
+        
+    </ul>
+</div>
+
+        </div>
+    
+
+    <div class="right-side-tools-container">
+        <div class="side-tools-container">
+    <ul class="hidden-tools-list">
+        <li class="right-bottom-tools tool-font-adjust-plus flex-center">
+            <i class="fa-regular fa-magnifying-glass-plus"></i>
+        </li>
+
+        <li class="right-bottom-tools tool-font-adjust-minus flex-center">
+            <i class="fa-regular fa-magnifying-glass-minus"></i>
+        </li>
+
+        <li class="right-bottom-tools tool-expand-width flex-center">
+            <i class="fa-regular fa-expand"></i>
+        </li>
+
+        <li class="right-bottom-tools tool-dark-light-toggle flex-center">
+            <i class="fa-regular fa-moon"></i>
+        </li>
+
+        <!-- rss -->
+        
+
+        
+
+        <li class="right-bottom-tools tool-scroll-to-bottom flex-center">
+            <i class="fa-regular fa-arrow-down"></i>
+        </li>
+    </ul>
+
+    <ul class="visible-tools-list">
+        <li class="right-bottom-tools toggle-tools-list flex-center">
+            <i class="fa-regular fa-cog fa-spin"></i>
+        </li>
+        
+            <li class="right-bottom-tools tool-scroll-to-top flex-center">
+                <i class="arrow-up fas fa-arrow-up"></i>
+                <span class="percent"></span>
+            </li>
+        
+        
+    </ul>
+</div>
+
+    </div>
+
+    <div class="image-viewer-container">
+    <img src="">
+</div>
+
+
+    
+
+
+</main>
+
+
+
+<script src="//npm.elemecdn.com/hexo-theme-redefine@2.1.3/source/js/utils.js"></script><script src="//npm.elemecdn.com/hexo-theme-redefine@2.1.3/source/js/main.js"></script><script src="//npm.elemecdn.com/hexo-theme-redefine@2.1.3/source/js/layouts/navbarShrink.js"></script><script src="//npm.elemecdn.com/hexo-theme-redefine@2.1.3/source/js/tools/scrollTopBottom.js"></script><script src="//npm.elemecdn.com/hexo-theme-redefine@2.1.3/source/js/tools/lightDarkSwitch.js"></script>
+
+
+
+
+    <script src="//npm.elemecdn.com/hexo-theme-redefine@2.1.3/source/js/tools/codeBlock.js"></script>
+
+
+
+    <script src="//npm.elemecdn.com/hexo-theme-redefine@2.1.3/source/js/layouts/lazyload.js"></script>
+
+
+
+    <script src="//npm.elemecdn.com/hexo-theme-redefine@2.1.3/source/js/tools/runtime.js"></script>
+    <script src="//npm.elemecdn.com/hexo-theme-redefine@2.1.3/source/js/layouts/odometer.min.js"></script>
+    <link rel="stylesheet" href="//npm.elemecdn.com/hexo-theme-redefine@2.1.3/source/assets/odometer-theme-minimal.css">
+
+
+
+  <script src="//npm.elemecdn.com/hexo-theme-redefine@2.1.3/source/js/libs/Typed.min.js"></script>
+  <script src="//npm.elemecdn.com/hexo-theme-redefine@2.1.3/source/js/plugins/typed.js"></script>
+
+
+
+
+
+
+
+<div class="post-scripts pjax">
+    
+        <script src="//npm.elemecdn.com/hexo-theme-redefine@2.1.3/source/js/tools/tocToggle.js"></script><script src="//npm.elemecdn.com/hexo-theme-redefine@2.1.3/source/js/libs/anime.min.js"></script><script src="//npm.elemecdn.com/hexo-theme-redefine@2.1.3/source/js/layouts/toc.js"></script><script src="//npm.elemecdn.com/hexo-theme-redefine@2.1.3/source/js/plugins/tabs.js"></script>
+    
+</div>
+
+
+    <script src="//npm.elemecdn.com/hexo-theme-redefine@2.1.3/source/js/libs/pjax.min.js"></script>
+<script>
+    window.addEventListener('DOMContentLoaded', () => {
+        window.pjax = new Pjax({
+            selectors: [
+                'head title',
+                '.page-container',
+                '.pjax',
+            ],
+            history: true,
+            debug: false,
+            cacheBust: false,
+            timeout: 0,
+            analytics: false,
+            currentUrlFullReload: false,
+            scrollRestoration: false,
+            // scrollTo: true,
+        });
+
+        document.addEventListener('pjax:send', () => {
+            Global.utils.pjaxProgressBarStart();
+        });
+
+        document.addEventListener('pjax:complete', () => {
+            Global.utils.pjaxProgressBarEnd();
+            window.pjax.executeScripts(document.querySelectorAll('script[data-pjax], .pjax script'));
+            Global.refresh();
+        });
+    });
+</script>
+
+
+
+
+</body>
+</html>

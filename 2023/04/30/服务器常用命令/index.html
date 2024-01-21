@@ -1,0 +1,677 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="keywords" content="Hexo Theme Redefine">
+    
+    <meta name="author" content="Tong">
+    <!-- preconnect -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    
+    
+        
+            <link rel="preconnect" href="https://npm.elemecdn.com" crossorigin>
+        
+    
+    <!--- Seo Part-->
+    
+    <link rel="canonical" href="http://example.com/2023/04/30/服务器常用命令/"/>
+    <meta name="robots" content="index,follow">
+    <meta name="googlebot" content="index,follow">
+    <meta name="revisit-after" content="1 days">
+    
+        <meta name="description" content="常用操作：12345678910111213141516171819202122ssh 用户名@服务器IP地址 &#x2F;&#x2F; CMD链接服务器scp -r D:\filename 用户名@服务器IP地址:&#x2F;home&#x2F;file  &#x2F;&#x2F;传输文件夹到服务器路径&#x2F;home&#x2F;file （不需要登陆服务器直接windows命令行执行）cd ..  &#x2F;&#x2F; 返回文件上一级rm -r filename &#x2F;&#x2F;删除文件mv f">
+<meta property="og:type" content="article">
+<meta property="og:title" content="服务器常用命令">
+<meta property="og:url" content="http://example.com/2023/04/30/%E6%9C%8D%E5%8A%A1%E5%99%A8%E5%B8%B8%E7%94%A8%E5%91%BD%E4%BB%A4/index.html">
+<meta property="og:site_name" content="Hexo">
+<meta property="og:description" content="常用操作：12345678910111213141516171819202122ssh 用户名@服务器IP地址 &#x2F;&#x2F; CMD链接服务器scp -r D:\filename 用户名@服务器IP地址:&#x2F;home&#x2F;file  &#x2F;&#x2F;传输文件夹到服务器路径&#x2F;home&#x2F;file （不需要登陆服务器直接windows命令行执行）cd ..  &#x2F;&#x2F; 返回文件上一级rm -r filename &#x2F;&#x2F;删除文件mv f">
+<meta property="og:locale" content="en_US">
+<meta property="article:published_time" content="2023-04-30T11:38:07.000Z">
+<meta property="article:modified_time" content="2024-01-17T11:16:29.663Z">
+<meta property="article:author" content="John Doe">
+<meta property="article:tag" content="vim">
+<meta property="article:tag" content="linux">
+<meta name="twitter:card" content="summary">
+    
+    
+    <!--- Icon Part-->
+    <link rel="icon" type="image/png" href="/images/nezha.webp" sizes="192x192">
+    <link rel="apple-touch-icon" sizes="180x180" href="/images/nezha.webp">
+    <meta name="theme-color" content="#A31F34">
+    <link rel="shortcut icon" href="/images/nezha.webp">
+    <!--- Page Info-->
+    
+    <title>
+        
+            服务器常用命令 -
+        
+        Tong&#39;s Blog
+    </title>
+    
+<link rel="stylesheet" href="/css/style.css">
+
+    <link rel="stylesheet" href="//npm.elemecdn.com/hexo-theme-redefine@2.1.3/source/assets/fonts.css">
+    <!--- Font Part-->
+    
+    
+    
+    
+
+    <!--- Inject Part-->
+    
+    <script id="hexo-configurations">
+    let Global = window.Global || {};
+    Global.hexo_config = {"hostname":"example.com","root":"/","language":"en","path":"search.xml"};
+    Global.theme_config = {"articles":{"style":{"font_size":"16px","line_height":1.5,"image_border_radius":"14px","image_alignment":"center","image_caption":false,"link_icon":true},"word_count":{"enable":true,"count":true,"min2read":true},"author_label":{"enable":true,"auto":false,"list":[""]},"code_block":{"copy":true,"style":"mac","font":{"enable":false,"family":null,"url":null}},"toc":{"enable":true,"max_depth":3,"number":false,"expand":true,"init_open":true},"copyright":true,"lazyload":true,"recommendation":{"enable":false,"title":"推荐阅读","limit":3,"placeholder":"/images/wallhaven-wqery6-light.webp","skip_dirs":[]}},"colors":{"primary":"#A31F34","secondary":null},"global":{"fonts":{"chinese":{"enable":false,"family":null,"url":null},"english":{"enable":false,"family":null,"url":null}},"content_max_width":"1000px","sidebar_width":"210px","hover":{"shadow":true,"scale":false},"scroll_progress":{"bar":false,"percentage":true},"busuanzi_counter":{"enable":true,"site_pv":true,"site_uv":true,"post_pv":true},"pjax":true,"open_graph":true,"google_analytics":{"enable":false,"id":null}},"home_banner":{"enable":true,"style":"fixed","image":{"light":"/images/test2.jpg","dark":"/images/wallhaven-wqery6-dark.webp"},"title":"Tong's Blog","subtitle":{"text":["不管怎样，别忘了热爱生活就好"],"hitokoto":{"enable":false,"api":"https://v1.hitokoto.cn"},"typing_speed":100,"backing_speed":80,"starting_delay":500,"backing_delay":1500,"loop":false,"smart_backspace":true},"text_color":{"light":"#fff","dark":"#d1d1b6"},"text_style":{"title_size":"2.8rem","subtitle_size":"1.5rem","line_height":1.2},"custom_font":{"enable":false,"family":null,"url":null},"social_links":{"enable":true,"links":{"github":"https://github.com/Tong-Cao","instagram":null,"zhihu":null,"twitter":null,"email":null}}},"plugins":{"feed":{"enable":false},"aplayer":{"enable":false,"type":"fixed","audios":[{"name":null,"artist":null,"url":null,"cover":null}]},"mermaid":{"enable":false,"version":"9.3.0"}},"version":"2.1.3","navbar":{"categories":{"Categories":{"icon":"fa-solid fa-folder","path":"/categories/"}},"tags":{"Tags":{"icon":"fa-solid fa-tags","path":"/tags/"}},"auto_hide":false,"color":{"left":"#f78736","right":"#367df7","transparency":35},"links":{"Home":{"path":"/","icon":"fa-regular fa-house"}},"search":{"enable":false,"preload":true}},"page_templates":{"friends_column":2,"tags_style":"cloud"},"home":{"sidebar":{"enable":true,"position":"left","first_item":"menu","announcement":null,"links":null},"article_date_format":"auto","categories":{"enable":true,"limit":3},"tags":{"enable":true,"limit":3}}};
+    Global.language_ago = {"second":"%s seconds ago","minute":"%s minutes ago","hour":"%s hours ago","day":"%s days ago","week":"%s weeks ago","month":"%s months ago","year":"%s years ago"};
+  </script>
+    
+    <!--- Fontawesome Part-->
+    <link rel="stylesheet" href="//npm.elemecdn.com/hexo-theme-redefine@2.1.3/source/fontawesome/fontawesome.min.css">
+    <link rel="stylesheet" href="//npm.elemecdn.com/hexo-theme-redefine@2.1.3/source/fontawesome/brands.min.css">
+    <link rel="stylesheet" href="//npm.elemecdn.com/hexo-theme-redefine@2.1.3/source/fontawesome/solid.min.css">
+    <link rel="stylesheet" href="//npm.elemecdn.com/hexo-theme-redefine@2.1.3/source/fontawesome/regular.min.css">
+    
+    
+    
+    
+<meta name="generator" content="Hexo 6.3.0"></head>
+
+
+<body>
+<div class="progress-bar-container">
+    
+
+    
+        <span class="pjax-progress-bar"></span>
+        <span class="pjax-progress-icon">
+            <i class="fa-solid fa-circle-notch fa-spin"></i>
+        </span>
+    
+</div>
+
+
+<main class="page-container">
+
+    
+
+    <div class="main-content-container">
+
+        <div class="main-content-header">
+            <header class="navbar-container">
+    
+    <div class="navbar-content">
+        <div class="left">
+            
+            <a class="logo-title" href="/">
+                
+                Tong&#39;s Blog
+                
+            </a>
+        </div>
+
+        <div class="right">
+            <!-- PC -->
+            <div class="desktop">
+                <ul class="navbar-list">
+                    
+                        
+                            <li class="navbar-item">
+                                <!-- Menu -->
+                                <a class="" 
+                                    href="/"  >
+                                    
+                                        
+                                            <i class="fa-regular fa-house"></i>
+                                        
+                                        HOME
+                                    
+                                </a>
+                                <!-- Submenu -->
+                                
+                            </li>
+                    
+                    
+                </ul>
+            </div>
+            <!-- Mobile -->
+            <div class="mobile">
+                
+                <div class="icon-item navbar-bar">
+                    <div class="navbar-bar-middle"></div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Mobile drawer -->
+    <div class="navbar-drawer">
+        <ul class="drawer-navbar-list">
+            
+                
+                    <li class="drawer-navbar-item flex-center">
+                        <a class="" 
+                        href="/"  >
+                             
+                                
+                                    <i class="fa-regular fa-house"></i>
+                                
+                                HOME
+                            
+                        </a>
+                    </li>
+                    <!-- Submenu -->
+                    
+            
+
+        </ul>
+    </div>
+
+    <div class="window-mask"></div>
+
+</header>
+
+
+        </div>
+
+        <div class="main-content-body">
+
+            
+
+            <div class="main-content">
+
+                
+                    <div class="fade-in-down-animation">
+    <div class="post-page-container">
+        <div class="article-content-container">
+
+            
+            
+                <div class="article-title">
+                    <h1 class="article-title-regular">服务器常用命令</h1>
+                </div>
+            
+                
+            
+
+            
+                <div class="article-header">
+                    <div class="avatar">
+                        <img src="/images/nezha.webp">
+                    </div>
+                    <div class="info">
+                        <div class="author">
+                            <span class="name">Tong</span>
+                            
+                                <span class="author-label"></span>
+                            
+                        </div>
+                        <div class="meta-info">
+                            <div class="article-meta-info">
+    <span class="article-date article-meta-item">
+        <i class="fa-regular fa-pen-fancy"></i>&nbsp;
+        <span class="desktop">2023-04-30 19:38:07</span>
+        <span class="mobile">2023-04-30 19:38</span>
+        <span class="hover-info">Created</span>
+    </span>
+    
+        <span class="article-date article-meta-item">
+            <i class="fa-regular fa-wrench"></i>&nbsp;
+            <span class="desktop">2024-01-17 19:16:29</span>
+            <span class="mobile">2024-01-17 19:16</span>
+            <span class="hover-info">Updated</span>
+        </span>
+    
+
+    
+        <span class="article-categories article-meta-item">
+            <i class="fa-regular fa-folders"></i>&nbsp;
+            <ul>
+                
+                    <li>
+                        <a href="/categories/%E6%8A%80%E6%9C%AF/">技术</a>&nbsp;
+                    </li>
+                
+                    <li>
+                        &gt; <a href="/categories/%E6%8A%80%E6%9C%AF/%E6%9C%8D%E5%8A%A1%E5%99%A8/">服务器</a>&nbsp;
+                    </li>
+                
+            </ul>
+        </span>
+    
+    
+        <span class="article-tags article-meta-item">
+            <i class="fa-regular fa-tags"></i>&nbsp;
+            <ul>
+                
+                    <li>
+                        <a href="/tags/vim/">vim</a>&nbsp;
+                    </li>
+                
+                    <li>
+                        | <a href="/tags/linux/">linux</a>&nbsp;
+                    </li>
+                
+            </ul>
+        </span>
+    
+
+    
+    
+    
+    
+        <span class="article-pv article-meta-item">
+            <i class="fa-regular fa-eye"></i>&nbsp;<span id="busuanzi_value_page_pv"></span>
+        </span>
+    
+</div>
+
+                        </div>
+                    </div>
+                </div>
+            
+
+            <div class="article-content markdown-body">
+                <h2 id="常用操作："><a href="#常用操作：" class="headerlink" title="常用操作："></a>常用操作：</h2><div class="highlight-container" data-rel="Bash"><figure class="iseeu highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br></pre></td><td class="code"><pre><span class="line">ssh 用户名@服务器IP地址 // CMD链接服务器</span><br><span class="line"></span><br><span class="line">scp -r D:\filename 用户名@服务器IP地址:/home/file  //传输文件夹到服务器路径/home/file （不需要登陆服务器直接windows命令行执行）</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="built_in">cd</span> ..  // 返回文件上一级</span><br><span class="line"></span><br><span class="line"><span class="built_in">rm</span> -r filename //删除文件</span><br><span class="line"></span><br><span class="line"><span class="built_in">mv</span> file1 file2 //将文件一移动到文件二里</span><br><span class="line"></span><br><span class="line"><span class="built_in">cp</span> file1 file2 //文件复制</span><br><span class="line"></span><br><span class="line"><span class="built_in">cp</span> -r file1 file2 //文件夹复制（../ 上一级文件夹）</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line">rz //传文件到服务器或者直接拖动文件放进Xshell窗口</span><br><span class="line"></span><br><span class="line">sz filename// 从服务器下载文件到本地</span><br><span class="line"></span><br><span class="line"><span class="built_in">du</span> -h 文件名 // 查看文件大小</span><br></pre></td></tr></table></figure></div>
+
+<h2 id="git使用："><a href="#git使用：" class="headerlink" title="git使用："></a>git使用：</h2><ul>
+<li><p><strong>克隆仓库代码</strong>：</p>
+<p><strong>HTTPS 方式：</strong></p>
+<div class="highlight-container" data-rel="Bash"><figure class="iseeu highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">git <span class="built_in">clone</span> 地址 </span><br></pre></td></tr></table></figure></div>
+
+<p>如果出现报错 <code>Failed to connect to github.com port 443 after 21098 ms: Timed out</code></p>
+<p>执行下面命令，首先设置全局代理再关闭全局代理。</p>
+<div class="highlight-container" data-rel="Bash"><figure class="iseeu highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">git config --global https.proxy</span><br><span class="line"></span><br><span class="line">git config --global --<span class="built_in">unset</span> https.proxy</span><br></pre></td></tr></table></figure></div>
+
+
+
+
+</li>
+<li><p><strong>本地仓库管理：</strong></p>
+<div class="highlight-container" data-rel="Bash"><figure class="iseeu highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line">git init  <span class="comment"># 初始化仓库 管理文件夹</span></span><br><span class="line"></span><br><span class="line">git add  <span class="comment"># 工作区---》提交到暂存区</span></span><br><span class="line">git commit -m  <span class="comment"># 暂存区--》提交版本库</span></span><br><span class="line">git reset --hard 版本号  <span class="comment"># 回归版本</span></span><br><span class="line"></span><br><span class="line">git status  <span class="comment"># 查看被管理的文件情况</span></span><br><span class="line">git <span class="built_in">log</span>  <span class="comment"># 查看版本库 详细</span></span><br><span class="line">git reflog	<span class="comment"># 查看版本库 简略</span></span><br><span class="line"></span><br><span class="line">git checkout .  <span class="comment"># 回滚工作区的内容</span></span><br><span class="line">git reset HEAD  <span class="comment"># 将暂存区的回到工作区</span></span><br></pre></td></tr></table></figure></div></li>
+</ul>
+<h2 id="vim使用："><a href="#vim使用：" class="headerlink" title="vim使用："></a>vim使用：</h2><p><code>vim filename</code></p>
+<p><strong>a</strong> 进入编辑模式</p>
+<p><strong>Esc</strong> 进入命令模式</p>
+<p><code>：wq</code>保存并退出</p>
+<h2 id="screen使用："><a href="#screen使用：" class="headerlink" title="screen使用："></a>screen使用：</h2><p><code>yum install -y screen</code> screen安装</p>
+<p><code>screen -S name</code> 创建新窗口</p>
+<p><strong>ctrl + a + d</strong>  或 <code>screen -d</code> 退出当前窗口</p>
+<p><code>exit</code> 退出程序并关闭窗口</p>
+<p><code>screen -ls</code> 查看窗口</p>
+<p><code>screen -r id_or_name</code>  重新连接窗口</p>
+<p><strong>Ctrl + a</strong>  (松开) <strong>+ [</strong>   使screen可以向上滚动查看</p>
+<p>Screen 的状态有两种，<strong>Attached</strong> 和 <strong>Detached</strong>，分别表示前台运行和后台运行。使用 <code>screen -r 会话名</code>（或者会话编号）可以将 Detached 状态的屏幕会话状态修改为 前台运行 ，并同时切换到这个会话中。如果会话状态已经是Attached状态，使用命令 screen -r name（或者会话编号）将会报错：There is no screen to be resumed matching 767(会话编号).如果需要切换到状态为Attached 的会话下，需要先执行 <code>screen -d 会话名</code> 将会话状态修改为 Detached。将当前会话转为后台运行可以使用快捷键ctrl + a,d。</p>
+<h2 id="脚本运行："><a href="#脚本运行：" class="headerlink" title="脚本运行："></a>脚本运行：</h2><p><code>chmod +x run_pytorch.sh</code> 使得脚本可以运行</p>
+<p><code>./run_pytorch.sh</code> 执行脚本</p>
+<h2 id="hexo命令："><a href="#hexo命令：" class="headerlink" title="hexo命令："></a>hexo命令：</h2><p> <code>hexo new title </code>  创建title.md文件</p>
+<p><code>hexo g</code> 生成</p>
+<p><code>hexo s</code> 本地启动服务查看</p>
+<p><code>hexo d</code> 部署</p>
+<p><strong>文章加密</strong>：</p>
+<div class="highlight-container" data-rel="Markdown"><figure class="iseeu highlight markdown"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">keywords: 博客文章密码</span><br><span class="line">password: 123</span><br><span class="line">abstract: 加密文章</span><br><span class="line">message:  输入密码</span><br></pre></td></tr></table></figure></div>
+
+<h2 id="多GPU启动："><a href="#多GPU启动：" class="headerlink" title="多GPU启动："></a>多GPU启动：</h2><p><code>python -m torch.distributed.launch --nproc_per_node=4 GAN_face.py</code></p>
+<h2 id="退出并关闭python程序："><a href="#退出并关闭python程序：" class="headerlink" title="退出并关闭python程序："></a>退出并关闭python程序：</h2><p><strong>ctrl+c</strong> 退出</p>
+<p><code>ps -ef | grep python</code> 查看运行的python程序</p>
+<p><code>kill -9 ID</code> 关闭python进程</p>
+<h2 id="TensorBoard服务器运行"><a href="#TensorBoard服务器运行" class="headerlink" title="TensorBoard服务器运行:"></a>TensorBoard服务器运行:</h2><div class="highlight-container" data-rel="Python"><figure class="iseeu highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">from</span> torch.utils.tensorboard <span class="keyword">import</span> SummaryWriter</span><br><span class="line">writer = SummaryWriter(<span class="string">&#x27;save&#x27;</span>) <span class="comment">#建立一个保存数据用的东西，save是输出的文件名</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># 数据写入tensorboard</span></span><br><span class="line">writer.add_scalar(tag=<span class="string">&quot;dice/valid&quot;</span>, scalar_value=np.mean(valid_dice_list),</span><br><span class="line">                          global_step=epoch + <span class="number">1</span>)</span><br><span class="line"></span><br></pre></td></tr></table></figure></div>
+
+<p><code>tensorboard --logdir=save --port=6006</code> 启动并在本地浏览器localhost:6006查看</p>
+
+            </div>
+
+            
+                <div class="post-copyright-info">
+                    <div class="article-copyright-info-container">
+    <ul>
+        <li><strong>Title:</strong> 服务器常用命令</li>
+        <li><strong>Author:</strong> Tong</li>
+        <li><strong>Created at:</strong> 2023-04-30 19:38:07</li>
+        
+            <li>
+                <strong>Updated at:</strong> 2024-01-17 19:16:29
+            </li>
+        
+        <li>
+            <strong>Link:</strong> https://github.com/Tong-Cao/Tong-Cao.github.io.git/2023/04/30/服务器常用命令/
+        </li>
+        <li>
+            <strong>License:</strong> This work is licensed under <a class="license" target="_blank" rel="noopener" href="https://creativecommons.org/licenses/by-nc-sa/4.0/deed.zh">CC BY-NC-SA 4.0</a>.
+        </li>
+    </ul>
+</div>
+
+                </div>
+            
+
+            
+                <ul class="post-tags-box">
+                    
+                        <li class="tag-item">
+                            <a href="/tags/vim/">#vim</a>&nbsp;
+                        </li>
+                    
+                        <li class="tag-item">
+                            <a href="/tags/linux/">#linux</a>&nbsp;
+                        </li>
+                    
+                </ul>
+            
+
+            
+
+            
+                <div class="article-nav">
+                    
+                        <div class="article-prev">
+                            <a class="prev"
+                            rel="prev"
+                            href="/2023/04/30/SSD%E7%9B%AE%E6%A0%87%E6%A3%80%E6%B5%8B/"
+                            >
+                                <span class="left arrow-icon flex-center">
+                                    <i class="fa-solid fa-chevron-left"></i>
+                                </span>
+                                <span class="title flex-center">
+                                    <span class="post-nav-title-item">SSD目标检测</span>
+                                    <span class="post-nav-item">Prev posts</span>
+                                </span>
+                            </a>
+                        </div>
+                    
+                    
+                </div>
+            
+
+
+            
+                <div class="comment-container">
+                    <div class="comments-container">
+    <div id="comment-anchor"></div>
+    <div class="comment-area-title">
+        <i class="fa-solid fa-comments"></i>&nbsp;Comments
+    </div>
+    
+
+        
+            
+ 
+    <div id="waline"></div>
+    <script type="module"  data-pjax>
+        import { init } from 'https://evan.beee.top/js/waline.mjs';
+
+        function loadWaline() {
+            init({
+                el: '#waline',
+                serverURL: 'https://example.example.com',
+                lang: 'zh-CN',
+                dark: 'body[class~="dark-mode"]',
+                requiredMeta: ['nick','mail'], // cannot customize by theme config, change it yourself
+            });
+        }
+
+        if ('true') {
+            const loadWalineTimeout = setTimeout(() => {
+                loadWaline();
+                clearTimeout(loadWalineTimeout);
+            }, 1000);
+        } else {
+            window.addEventListener('DOMContentLoaded', loadWaline);
+        }
+        
+    </script>
+
+
+
+        
+    
+</div>
+
+                </div>
+            
+        </div>
+
+        
+            <div class="toc-content-container">
+                <div class="post-toc-wrap">
+    <div class="post-toc">
+        <div class="toc-title">On this page</div>
+        <div class="page-title">服务器常用命令</div>
+        <ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%B8%B8%E7%94%A8%E6%93%8D%E4%BD%9C%EF%BC%9A"><span class="nav-text">常用操作：</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#git%E4%BD%BF%E7%94%A8%EF%BC%9A"><span class="nav-text">git使用：</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#vim%E4%BD%BF%E7%94%A8%EF%BC%9A"><span class="nav-text">vim使用：</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#screen%E4%BD%BF%E7%94%A8%EF%BC%9A"><span class="nav-text">screen使用：</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E8%84%9A%E6%9C%AC%E8%BF%90%E8%A1%8C%EF%BC%9A"><span class="nav-text">脚本运行：</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#hexo%E5%91%BD%E4%BB%A4%EF%BC%9A"><span class="nav-text">hexo命令：</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%A4%9AGPU%E5%90%AF%E5%8A%A8%EF%BC%9A"><span class="nav-text">多GPU启动：</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E9%80%80%E5%87%BA%E5%B9%B6%E5%85%B3%E9%97%ADpython%E7%A8%8B%E5%BA%8F%EF%BC%9A"><span class="nav-text">退出并关闭python程序：</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#TensorBoard%E6%9C%8D%E5%8A%A1%E5%99%A8%E8%BF%90%E8%A1%8C"><span class="nav-text">TensorBoard服务器运行:</span></a></li></ol>
+
+    </div>
+</div>
+            </div>
+        
+    </div>
+</div>
+
+
+                
+
+            </div>
+            
+            
+
+        </div>
+
+        <div class="main-content-footer">
+            <footer class="footer">
+    <div class="info-container">
+        <div class="copyright-info">
+            &copy;
+            
+              <span>2023</span>
+              -
+            
+            2024&nbsp;&nbsp;<i class="fa-solid fa-heart fa-beat" style="--fa-animation-duration: 0.5s; color: #f54545"></i>&nbsp;&nbsp;<a href="/">Tong</a>
+        </div>
+        
+            <script async data-pjax src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+            <div class="website-count info-item">
+                
+                    <span id="busuanzi_container_site_uv" class="busuanzi_container_site_uv">
+                        VISITOR COUNT&nbsp;<span id="busuanzi_value_site_uv" class="busuanzi_value_site_uv"></span>
+                    </span>
+                
+                
+                    <span id="busuanzi_container_site_pv" class="busuanzi_container_site_pv">
+                        TOTAL PAGE VIEWS&nbsp;<span id="busuanzi_value_site_pv" class="busuanzi_value_site_pv"></span>
+                    </span>
+                
+            </div>
+        
+        <div class="theme-info info-item">
+            <span class="powered-by-container">POWERED BY <?xml version="1.0" encoding="utf-8"?><!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.1//EN" "http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd"><svg version="1.1" id="圖層_1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px" width="1rem" height="1rem" viewBox="0 0 512 512" enable-background="new 0 0 512 512" xml:space="preserve"><path fill="#0E83CD" d="M256.4,25.8l-200,115.5L56,371.5l199.6,114.7l200-115.5l0.4-230.2L256.4,25.8z M349,354.6l-18.4,10.7l-18.6-11V275H200v79.6l-18.4,10.7l-18.6-11v-197l18.5-10.6l18.5,10.8V237h112v-79.6l18.5-10.6l18.5,10.8V354.6z"/></svg><a target="_blank" href="https://hexo.io">Hexo</a></span>
+                <br>
+            <span class="theme-version-container">THEME&nbsp;<a class="theme-version" target="_blank" href="https://github.com/EvanNotFound/hexo-theme-redefine">Redefine v2.1.3</a>
+        </div>
+        
+        
+        
+            <div id="start_div" style="display:none">
+                2023/4/30 12:00:00
+            </div>
+            <div>
+                Blog up for <span class="odometer" id="runtime_days" ></span> days <span class="odometer" id="runtime_hours"></span> hrs <span class="odometer" id="runtime_minutes"></span> Min <span class="odometer" id="runtime_seconds"></span> Sec
+            </div>
+        
+        
+        
+            <script async data-pjax>
+                try {
+                    function odometer_init() {
+                    const elements = document.querySelectorAll('.odometer');
+                    elements.forEach(el => {
+                        new Odometer({
+                            el,
+                            format: '( ddd).dd',
+                            duration: 200
+                        });
+                    });
+                    }
+                    odometer_init();
+                } catch (error) {}
+            </script>
+        
+        
+        
+    </div>  
+</footer>
+        </div>
+    </div>
+
+    
+        <div class="post-tools">
+            <div class="post-tools-container">
+    <ul class="article-tools-list">
+        <!-- TOC aside toggle -->
+        
+            <li class="right-bottom-tools page-aside-toggle">
+                <i class="fa-regular fa-outdent"></i>
+            </li>
+        
+
+        <!-- go comment -->
+        
+            <li class="go-comment">
+                <i class="fa-regular fa-comments"></i>
+            </li>
+        
+    </ul>
+</div>
+
+        </div>
+    
+
+    <div class="right-side-tools-container">
+        <div class="side-tools-container">
+    <ul class="hidden-tools-list">
+        <li class="right-bottom-tools tool-font-adjust-plus flex-center">
+            <i class="fa-regular fa-magnifying-glass-plus"></i>
+        </li>
+
+        <li class="right-bottom-tools tool-font-adjust-minus flex-center">
+            <i class="fa-regular fa-magnifying-glass-minus"></i>
+        </li>
+
+        <li class="right-bottom-tools tool-expand-width flex-center">
+            <i class="fa-regular fa-expand"></i>
+        </li>
+
+        <li class="right-bottom-tools tool-dark-light-toggle flex-center">
+            <i class="fa-regular fa-moon"></i>
+        </li>
+
+        <!-- rss -->
+        
+
+        
+
+        <li class="right-bottom-tools tool-scroll-to-bottom flex-center">
+            <i class="fa-regular fa-arrow-down"></i>
+        </li>
+    </ul>
+
+    <ul class="visible-tools-list">
+        <li class="right-bottom-tools toggle-tools-list flex-center">
+            <i class="fa-regular fa-cog fa-spin"></i>
+        </li>
+        
+            <li class="right-bottom-tools tool-scroll-to-top flex-center">
+                <i class="arrow-up fas fa-arrow-up"></i>
+                <span class="percent"></span>
+            </li>
+        
+        
+    </ul>
+</div>
+
+    </div>
+
+    <div class="image-viewer-container">
+    <img src="">
+</div>
+
+
+    
+
+
+</main>
+
+
+
+<script src="//npm.elemecdn.com/hexo-theme-redefine@2.1.3/source/js/utils.js"></script><script src="//npm.elemecdn.com/hexo-theme-redefine@2.1.3/source/js/main.js"></script><script src="//npm.elemecdn.com/hexo-theme-redefine@2.1.3/source/js/layouts/navbarShrink.js"></script><script src="//npm.elemecdn.com/hexo-theme-redefine@2.1.3/source/js/tools/scrollTopBottom.js"></script><script src="//npm.elemecdn.com/hexo-theme-redefine@2.1.3/source/js/tools/lightDarkSwitch.js"></script>
+
+
+
+
+    <script src="//npm.elemecdn.com/hexo-theme-redefine@2.1.3/source/js/tools/codeBlock.js"></script>
+
+
+
+    <script src="//npm.elemecdn.com/hexo-theme-redefine@2.1.3/source/js/layouts/lazyload.js"></script>
+
+
+
+    <script src="//npm.elemecdn.com/hexo-theme-redefine@2.1.3/source/js/tools/runtime.js"></script>
+    <script src="//npm.elemecdn.com/hexo-theme-redefine@2.1.3/source/js/layouts/odometer.min.js"></script>
+    <link rel="stylesheet" href="//npm.elemecdn.com/hexo-theme-redefine@2.1.3/source/assets/odometer-theme-minimal.css">
+
+
+
+  <script src="//npm.elemecdn.com/hexo-theme-redefine@2.1.3/source/js/libs/Typed.min.js"></script>
+  <script src="//npm.elemecdn.com/hexo-theme-redefine@2.1.3/source/js/plugins/typed.js"></script>
+
+
+
+
+
+
+
+<div class="post-scripts pjax">
+    
+        <script src="//npm.elemecdn.com/hexo-theme-redefine@2.1.3/source/js/tools/tocToggle.js"></script><script src="//npm.elemecdn.com/hexo-theme-redefine@2.1.3/source/js/libs/anime.min.js"></script><script src="//npm.elemecdn.com/hexo-theme-redefine@2.1.3/source/js/layouts/toc.js"></script><script src="//npm.elemecdn.com/hexo-theme-redefine@2.1.3/source/js/plugins/tabs.js"></script>
+    
+</div>
+
+
+    <script src="//npm.elemecdn.com/hexo-theme-redefine@2.1.3/source/js/libs/pjax.min.js"></script>
+<script>
+    window.addEventListener('DOMContentLoaded', () => {
+        window.pjax = new Pjax({
+            selectors: [
+                'head title',
+                '.page-container',
+                '.pjax',
+            ],
+            history: true,
+            debug: false,
+            cacheBust: false,
+            timeout: 0,
+            analytics: false,
+            currentUrlFullReload: false,
+            scrollRestoration: false,
+            // scrollTo: true,
+        });
+
+        document.addEventListener('pjax:send', () => {
+            Global.utils.pjaxProgressBarStart();
+        });
+
+        document.addEventListener('pjax:complete', () => {
+            Global.utils.pjaxProgressBarEnd();
+            window.pjax.executeScripts(document.querySelectorAll('script[data-pjax], .pjax script'));
+            Global.refresh();
+        });
+    });
+</script>
+
+
+
+
+</body>
+</html>

@@ -1,0 +1,692 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="keywords" content="Hexo Theme Redefine">
+    
+    <meta name="author" content="Tong">
+    <!-- preconnect -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    
+    
+        
+            <link rel="preconnect" href="https://npm.elemecdn.com" crossorigin>
+        
+    
+    <!--- Seo Part-->
+    
+    <link rel="canonical" href="http://example.com/2023/05/05/多gpu训练/"/>
+    <meta name="robots" content="index,follow">
+    <meta name="googlebot" content="index,follow">
+    <meta name="revisit-after" content="1 days">
+    
+        <meta name="description" content="torch.distributed12345678910111213141516171819202122232425from torch.utils.data.distributed import DistributedSampler# 1) 初始化torch.distributed.init_process_group(backend&#x3D;&quot;nccl&quot;)# 2） 配置每个进程的g">
+<meta property="og:type" content="article">
+<meta property="og:title" content="多GPU训练">
+<meta property="og:url" content="http://example.com/2023/05/05/%E5%A4%9AGPU%E8%AE%AD%E7%BB%83/index.html">
+<meta property="og:site_name" content="Hexo">
+<meta property="og:description" content="torch.distributed12345678910111213141516171819202122232425from torch.utils.data.distributed import DistributedSampler# 1) 初始化torch.distributed.init_process_group(backend&#x3D;&quot;nccl&quot;)# 2） 配置每个进程的g">
+<meta property="og:locale" content="en_US">
+<meta property="article:published_time" content="2023-05-05T10:05:07.000Z">
+<meta property="article:modified_time" content="2023-11-18T06:00:30.081Z">
+<meta property="article:author" content="John Doe">
+<meta property="article:tag" content="深度学习">
+<meta property="article:tag" content="GPU">
+<meta name="twitter:card" content="summary">
+    
+    
+    <!--- Icon Part-->
+    <link rel="icon" type="image/png" href="/images/nezha.webp" sizes="192x192">
+    <link rel="apple-touch-icon" sizes="180x180" href="/images/nezha.webp">
+    <meta name="theme-color" content="#A31F34">
+    <link rel="shortcut icon" href="/images/nezha.webp">
+    <!--- Page Info-->
+    
+    <title>
+        
+            多GPU训练 -
+        
+        Tong&#39;s Blog
+    </title>
+    
+<link rel="stylesheet" href="/css/style.css">
+
+    <link rel="stylesheet" href="//npm.elemecdn.com/hexo-theme-redefine@2.1.3/source/assets/fonts.css">
+    <!--- Font Part-->
+    
+    
+    
+    
+
+    <!--- Inject Part-->
+    
+    <script id="hexo-configurations">
+    let Global = window.Global || {};
+    Global.hexo_config = {"hostname":"example.com","root":"/","language":"en","path":"search.xml"};
+    Global.theme_config = {"articles":{"style":{"font_size":"16px","line_height":1.5,"image_border_radius":"14px","image_alignment":"center","image_caption":false,"link_icon":true},"word_count":{"enable":true,"count":true,"min2read":true},"author_label":{"enable":true,"auto":false,"list":[""]},"code_block":{"copy":true,"style":"mac","font":{"enable":false,"family":null,"url":null}},"toc":{"enable":true,"max_depth":3,"number":false,"expand":true,"init_open":true},"copyright":true,"lazyload":true,"recommendation":{"enable":false,"title":"推荐阅读","limit":3,"placeholder":"/images/wallhaven-wqery6-light.webp","skip_dirs":[]}},"colors":{"primary":"#A31F34","secondary":null},"global":{"fonts":{"chinese":{"enable":false,"family":null,"url":null},"english":{"enable":false,"family":null,"url":null}},"content_max_width":"1000px","sidebar_width":"210px","hover":{"shadow":true,"scale":false},"scroll_progress":{"bar":false,"percentage":true},"busuanzi_counter":{"enable":true,"site_pv":true,"site_uv":true,"post_pv":true},"pjax":true,"open_graph":true,"google_analytics":{"enable":false,"id":null}},"home_banner":{"enable":true,"style":"fixed","image":{"light":"/images/test2.jpg","dark":"/images/wallhaven-wqery6-dark.webp"},"title":"Tong's Blog","subtitle":{"text":["不管怎样，别忘了热爱生活就好"],"hitokoto":{"enable":false,"api":"https://v1.hitokoto.cn"},"typing_speed":100,"backing_speed":80,"starting_delay":500,"backing_delay":1500,"loop":false,"smart_backspace":true},"text_color":{"light":"#fff","dark":"#d1d1b6"},"text_style":{"title_size":"2.8rem","subtitle_size":"1.5rem","line_height":1.2},"custom_font":{"enable":false,"family":null,"url":null},"social_links":{"enable":true,"links":{"github":"https://github.com/Tong-Cao","instagram":null,"zhihu":null,"twitter":null,"email":null}}},"plugins":{"feed":{"enable":false},"aplayer":{"enable":false,"type":"fixed","audios":[{"name":null,"artist":null,"url":null,"cover":null}]},"mermaid":{"enable":false,"version":"9.3.0"}},"version":"2.1.3","navbar":{"categories":{"Categories":{"icon":"fa-solid fa-folder","path":"/categories/"}},"tags":{"Tags":{"icon":"fa-solid fa-tags","path":"/tags/"}},"auto_hide":false,"color":{"left":"#f78736","right":"#367df7","transparency":35},"links":{"Home":{"path":"/","icon":"fa-regular fa-house"}},"search":{"enable":false,"preload":true}},"page_templates":{"friends_column":2,"tags_style":"cloud"},"home":{"sidebar":{"enable":true,"position":"left","first_item":"menu","announcement":null,"links":null},"article_date_format":"auto","categories":{"enable":true,"limit":3},"tags":{"enable":true,"limit":3}}};
+    Global.language_ago = {"second":"%s seconds ago","minute":"%s minutes ago","hour":"%s hours ago","day":"%s days ago","week":"%s weeks ago","month":"%s months ago","year":"%s years ago"};
+  </script>
+    
+    <!--- Fontawesome Part-->
+    <link rel="stylesheet" href="//npm.elemecdn.com/hexo-theme-redefine@2.1.3/source/fontawesome/fontawesome.min.css">
+    <link rel="stylesheet" href="//npm.elemecdn.com/hexo-theme-redefine@2.1.3/source/fontawesome/brands.min.css">
+    <link rel="stylesheet" href="//npm.elemecdn.com/hexo-theme-redefine@2.1.3/source/fontawesome/solid.min.css">
+    <link rel="stylesheet" href="//npm.elemecdn.com/hexo-theme-redefine@2.1.3/source/fontawesome/regular.min.css">
+    
+    
+    
+    
+<meta name="generator" content="Hexo 6.3.0"></head>
+
+
+<body>
+<div class="progress-bar-container">
+    
+
+    
+        <span class="pjax-progress-bar"></span>
+        <span class="pjax-progress-icon">
+            <i class="fa-solid fa-circle-notch fa-spin"></i>
+        </span>
+    
+</div>
+
+
+<main class="page-container">
+
+    
+
+    <div class="main-content-container">
+
+        <div class="main-content-header">
+            <header class="navbar-container">
+    
+    <div class="navbar-content">
+        <div class="left">
+            
+            <a class="logo-title" href="/">
+                
+                Tong&#39;s Blog
+                
+            </a>
+        </div>
+
+        <div class="right">
+            <!-- PC -->
+            <div class="desktop">
+                <ul class="navbar-list">
+                    
+                        
+                            <li class="navbar-item">
+                                <!-- Menu -->
+                                <a class="" 
+                                    href="/"  >
+                                    
+                                        
+                                            <i class="fa-regular fa-house"></i>
+                                        
+                                        HOME
+                                    
+                                </a>
+                                <!-- Submenu -->
+                                
+                            </li>
+                    
+                    
+                </ul>
+            </div>
+            <!-- Mobile -->
+            <div class="mobile">
+                
+                <div class="icon-item navbar-bar">
+                    <div class="navbar-bar-middle"></div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Mobile drawer -->
+    <div class="navbar-drawer">
+        <ul class="drawer-navbar-list">
+            
+                
+                    <li class="drawer-navbar-item flex-center">
+                        <a class="" 
+                        href="/"  >
+                             
+                                
+                                    <i class="fa-regular fa-house"></i>
+                                
+                                HOME
+                            
+                        </a>
+                    </li>
+                    <!-- Submenu -->
+                    
+            
+
+        </ul>
+    </div>
+
+    <div class="window-mask"></div>
+
+</header>
+
+
+        </div>
+
+        <div class="main-content-body">
+
+            
+
+            <div class="main-content">
+
+                
+                    <div class="fade-in-down-animation">
+    <div class="post-page-container">
+        <div class="article-content-container">
+
+            
+            
+                <div class="article-title">
+                    <h1 class="article-title-regular">多GPU训练</h1>
+                </div>
+            
+                
+            
+
+            
+                <div class="article-header">
+                    <div class="avatar">
+                        <img src="/images/nezha.webp">
+                    </div>
+                    <div class="info">
+                        <div class="author">
+                            <span class="name">Tong</span>
+                            
+                                <span class="author-label"></span>
+                            
+                        </div>
+                        <div class="meta-info">
+                            <div class="article-meta-info">
+    <span class="article-date article-meta-item">
+        <i class="fa-regular fa-pen-fancy"></i>&nbsp;
+        <span class="desktop">2023-05-05 18:05:07</span>
+        <span class="mobile">2023-05-05 18:05</span>
+        <span class="hover-info">Created</span>
+    </span>
+    
+        <span class="article-date article-meta-item">
+            <i class="fa-regular fa-wrench"></i>&nbsp;
+            <span class="desktop">2023-11-18 14:30</span>
+            <span class="mobile">2023-11-18 14</span>
+            <span class="hover-info">Updated</span>
+        </span>
+    
+
+    
+        <span class="article-categories article-meta-item">
+            <i class="fa-regular fa-folders"></i>&nbsp;
+            <ul>
+                
+                    <li>
+                        <a href="/categories/%E6%B7%B1%E5%BA%A6%E5%AD%A6%E4%B9%A0/">深度学习</a>&nbsp;
+                    </li>
+                
+                    <li>
+                        &gt; <a href="/categories/%E6%B7%B1%E5%BA%A6%E5%AD%A6%E4%B9%A0/GPU%E8%AE%AD%E7%BB%83/">GPU训练</a>&nbsp;
+                    </li>
+                
+            </ul>
+        </span>
+    
+    
+        <span class="article-tags article-meta-item">
+            <i class="fa-regular fa-tags"></i>&nbsp;
+            <ul>
+                
+                    <li>
+                        <a href="/tags/%E6%B7%B1%E5%BA%A6%E5%AD%A6%E4%B9%A0/">深度学习</a>&nbsp;
+                    </li>
+                
+                    <li>
+                        | <a href="/tags/GPU/">GPU</a>&nbsp;
+                    </li>
+                
+            </ul>
+        </span>
+    
+
+    
+    
+    
+    
+        <span class="article-pv article-meta-item">
+            <i class="fa-regular fa-eye"></i>&nbsp;<span id="busuanzi_value_page_pv"></span>
+        </span>
+    
+</div>
+
+                        </div>
+                    </div>
+                </div>
+            
+
+            <div class="article-content markdown-body">
+                <h2 id="torch-distributed"><a href="#torch-distributed" class="headerlink" title="torch.distributed"></a>torch.distributed</h2><div class="highlight-container" data-rel="Python"><figure class="iseeu highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">from</span> torch.utils.data.distributed <span class="keyword">import</span> DistributedSampler</span><br><span class="line"><span class="comment"># 1) 初始化</span></span><br><span class="line">torch.distributed.init_process_group(backend=<span class="string">&quot;nccl&quot;</span>)</span><br><span class="line"></span><br><span class="line"><span class="comment"># 2） 配置每个进程的gpu</span></span><br><span class="line">local_rank = torch.distributed.get_rank()</span><br><span class="line"><span class="built_in">print</span>(<span class="string">&#x27;local_rank&#x27;</span>,local_rank)</span><br><span class="line">torch.cuda.set_device(local_rank)</span><br><span class="line">device = torch.device(<span class="string">&quot;cuda&quot;</span>, local_rank)</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="comment"># 3）使用DistributedSampler</span></span><br><span class="line">rand_loader = DataLoader(dataset=dataset,</span><br><span class="line">                         batch_size=batch_size,</span><br><span class="line">                         sampler=DistributedSampler(dataset))</span><br><span class="line"></span><br><span class="line"><span class="comment"># 4) 封装之前要把模型移到对应的gpu</span></span><br><span class="line">model.to(device)</span><br><span class="line"> </span><br><span class="line"><span class="keyword">if</span> torch.cuda.device_count() &gt; <span class="number">1</span>:</span><br><span class="line">    <span class="built_in">print</span>(<span class="string">&quot;Let&#x27;s use&quot;</span>, torch.cuda.device_count(), <span class="string">&quot;GPUs!&quot;</span>)</span><br><span class="line">    <span class="comment"># 5) 封装</span></span><br><span class="line">    model = torch.nn.parallel.DistributedDataParallel(model,</span><br><span class="line">                                                      device_ids=[local_rank],</span><br><span class="line">                                                      output_device=local_rank)</span><br></pre></td></tr></table></figure></div>
+<p> 运行</p>
+<div class="highlight-container" data-rel="Bash"><figure class="iseeu highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">CUDA_VISIBLE_DEVICES=3,4,5,6 python -m torch.distributed.launch --nproc_per_node=2 main.py <span class="comment"># CUDA_VISIBLE_DEVICES=3,4,5,6 用来指定GPU的序号 使用第4，5，6，7块GPU</span></span><br></pre></td></tr></table></figure></div>
+
+<p>使用<code>argparse.ArgumentParser()</code>解析参数时可能会出现<code>unrecognized arguments: --local_rank=2</code>的错误一般只需要加上<br><code>parser.add_argument(&quot;--rank&quot;, default=-1, type=int, help=&quot;node rank for distributed training&quot;)</code>就行。</p>
+<p>但是在新服务器上报错显示为<code>--local-rank</code>没有识别，之前一直加的参数为<code>parser.add_argument(&quot;--local_rank&quot;, default=-1, type=int) </code>现修改为<code>parser.add_argument(&quot;--local-rank&quot;, default=-1, type=int)</code>（下划线改为破折号）正常运行。</p>
+<p>可以将上述命令写到sh文件中，方便运行</p>
+<p><code>chmod +x 脚本名称.sh</code> 使得脚本可以运行</p>
+<p><code>./脚本名称.sh</code> 执行脚本</p>
+<h2 id="多GPU保存模型"><a href="#多GPU保存模型" class="headerlink" title="多GPU保存模型"></a>多GPU保存模型</h2><h3 id="使用多卡训练单卡加载时使用下面的保存方式："><a href="#使用多卡训练单卡加载时使用下面的保存方式：" class="headerlink" title="使用多卡训练单卡加载时使用下面的保存方式："></a>使用多卡训练单卡加载时使用下面的保存方式：</h3><p><strong>第一种</strong>：对于加载<strong>整个模型</strong>加参数，此时保存的model对应的layer的名称中会比单卡保存多了一个module我们直接提取模型的module属性即可</p>
+<div class="highlight-container" data-rel="Python"><figure class="iseeu highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">torch.save(model, PATH) <span class="comment"># 保存整个模型</span></span><br></pre></td></tr></table></figure></div>
+
+<div class="highlight-container" data-rel="Python"><figure class="iseeu highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">model = torch.load(PATH)</span><br><span class="line">model = model.module <span class="comment">#提取module属性</span></span><br></pre></td></tr></table></figure></div>
+
+
+
+<p><strong>第二种</strong>：对于只保存和加载模型的<strong>参数</strong> </p>
+<ul>
+<li><p>方法1：我们在保存时需要加上<code>.module</code>然后正常加载就可以</p>
+<div class="highlight-container" data-rel="Python"><figure class="iseeu highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">torch.save(model.module.state_dict(), PATH)</span><br></pre></td></tr></table></figure></div>
+
+<p>加载参数：</p>
+<div class="highlight-container" data-rel="Python"><figure class="iseeu highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">model = mymodel() <span class="comment"># 初始化模型</span></span><br><span class="line">model.load_state_dict(torch.load(PATH))</span><br></pre></td></tr></table></figure></div>
+
+
+</li>
+<li><p>方法2：使用正常保存方式，在加载模型时往model里添加module</p>
+<div class="highlight-container" data-rel="Python"><figure class="iseeu highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">torch.save(model.state_dict(), PATH)</span><br></pre></td></tr></table></figure></div>
+
+<p>加载参数：</p>
+<div class="highlight-container" data-rel="Python"><figure class="iseeu highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">os.environ[<span class="string">&#x27;CUDA_VISIBLE_DEVICES&#x27;</span>] = <span class="string">&#x27;0&#x27;</span>   <span class="comment">#这里替换成希望使用的GPU编号</span></span><br><span class="line">loaded_dict = torch.load(PATH)</span><br><span class="line">model = mymodel() <span class="comment"># 初始化模型</span></span><br><span class="line">model = nn.DataParallel(model).cuda() <span class="comment"># 往model里面添加module</span></span><br><span class="line">model.state_dict = loaded_dict</span><br></pre></td></tr></table></figure></div>
+</li>
+<li><p>方法3：使用正常保存方式，遍历字典去除module</p>
+<div class="highlight-container" data-rel="Python"><figure class="iseeu highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">from</span> collections <span class="keyword">import</span> OrderedDict</span><br><span class="line">os.environ[<span class="string">&#x27;CUDA_VISIBLE_DEVICES&#x27;</span>] = <span class="string">&#x27;0&#x27;</span>   <span class="comment">#这里替换成希望使用的GPU编号</span></span><br><span class="line"></span><br><span class="line">loaded_dict = torch.load(save_dir)</span><br><span class="line"></span><br><span class="line">new_state_dict = OrderedDict()</span><br><span class="line"><span class="keyword">for</span> k, v <span class="keyword">in</span> loaded_dict.items():</span><br><span class="line">    name = k[<span class="number">7</span>:] <span class="comment"># module字段在最前面，从第7个字符开始就可以去掉module</span></span><br><span class="line">    new_state_dict[name] = v <span class="comment">#新字典的key值对应的value一一对应</span></span><br><span class="line"></span><br><span class="line">model = mymodel() <span class="comment"># 初始化模型</span></span><br><span class="line">model.state_dict = new_state_dict <span class="comment"># 如果发现不能正常导入之前的参数（不会报错，所以需要看网络的输出是否和之前训练的结果一样） 将此行代码改为 ：model.load_state_dict(new_state_dict)</span></span><br><span class="line">model = model.cuda()</span><br></pre></td></tr></table></figure></div></li>
+</ul>
+<p>其他情况可参考：<a class="link"   target="_blank" rel="noopener" href="https://zhuanlan.zhihu.com/p/371090724" >https://zhuanlan.zhihu.com/p/371090724 <i class="fa-regular fa-arrow-up-right-from-square fa-sm"></i></a></p>
+<h3 id="使用多卡训练时加载单卡训练保存的模型参数："><a href="#使用多卡训练时加载单卡训练保存的模型参数：" class="headerlink" title="使用多卡训练时加载单卡训练保存的模型参数："></a>使用多卡训练时加载单卡训练保存的模型参数：</h3><p>因为多卡训练的模型中比单卡多了一个module，我们可以通过往字典中加入module来解决，与多卡训练结果使用单卡加载正好相反。</p>
+<div class="highlight-container" data-rel="Python"><figure class="iseeu highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">def</span> <span class="title function_">load_model</span>(<span class="params">model, model_dict_path</span>):</span><br><span class="line">    <span class="string">&quot;&quot;&quot;</span></span><br><span class="line"><span class="string">    多GPU训练时,加载单GPU训练的模型</span></span><br><span class="line"><span class="string">    :param model: 模型</span></span><br><span class="line"><span class="string">    :param model_dict_path: 模型参数路径</span></span><br><span class="line"><span class="string">    &quot;&quot;&quot;</span></span><br><span class="line">    <span class="keyword">from</span> collections <span class="keyword">import</span> OrderedDict</span><br><span class="line">    loaded_dict = torch.load(model_dict_path) <span class="comment"># 加载模型参数</span></span><br><span class="line">    new_state_dict = OrderedDict() <span class="comment"># 新建一个空的字典</span></span><br><span class="line">    <span class="keyword">for</span> k, v <span class="keyword">in</span> loaded_dict.items():</span><br><span class="line">        name = <span class="string">&quot;module.&quot;</span> + k[:]  <span class="comment"># 添加&#x27;module.&#x27;是为了适应多GPU训练时保存的模型参数的key值</span></span><br><span class="line">        new_state_dict[name] = v <span class="comment"># 新字典的key值对应的value一一对应</span></span><br><span class="line">    </span><br><span class="line">    <span class="comment"># model.state_dict = new_state_dict # 加载模型参数</span></span><br><span class="line">    model.load_state_dict(new_state_dict) <span class="comment"># 使用上面一行进行模型参数加载 发现不能正常加载之前的参数 使用这种方式可以正常使用</span></span><br><span class="line"></span><br><span class="line">    <span class="keyword">return</span> model</span><br></pre></td></tr></table></figure></div>
+
+
+
+<h2 id="报错"><a href="#报错" class="headerlink" title="报错"></a>报错</h2><blockquote>
+<p>RuntimeError: Expected to have finished reduction in the prioriteration before starting a new one. This error indicates that yourmodule has parameters that were not used in producing loss. You can enable unused parameter detection by (1) passing the keyword argument  find_unused_parameters&#x3D;True to torch.nn.parallel.DistributedDataParallel; (2) making sure all forward function outputs participate in calculating loss. If you already have done the above two steps, then the distributed data parallel module wasn’t able to locate the output tensors in the return value of your module’s forward function. Please include the loss function and the structure of the return value of forward of your module when reporting this issue (e.g. list, dict, iterable).</p>
+</blockquote>
+<p>使用单GPU可以正常梯度下降，多GPU时提醒这个报错。<br>在 <strong>torch.nn.parallel.DistributedDataParallel</strong>中加入<strong>find_unused_parameters&#x3D;True</strong>忽略这些报错参数</p>
+<div class="highlight-container" data-rel="Python"><figure class="iseeu highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">model = torch.nn.parallel.DistributedDataParallel(model,find_unused_parameters=<span class="literal">True</span>， </span><br><span class="line">                                                  device_ids=[local_rank],</span><br><span class="line">                                                  output_device=local_rank)</span><br></pre></td></tr></table></figure></div>
+
+            </div>
+
+            
+                <div class="post-copyright-info">
+                    <div class="article-copyright-info-container">
+    <ul>
+        <li><strong>Title:</strong> 多GPU训练</li>
+        <li><strong>Author:</strong> Tong</li>
+        <li><strong>Created at:</strong> 2023-05-05 18:05:07</li>
+        
+            <li>
+                <strong>Updated at:</strong> 2023-11-18 14:00:30
+            </li>
+        
+        <li>
+            <strong>Link:</strong> https://github.com/Tong-Cao/Tong-Cao.github.io.git/2023/05/05/多GPU训练/
+        </li>
+        <li>
+            <strong>License:</strong> This work is licensed under <a class="license" target="_blank" rel="noopener" href="https://creativecommons.org/licenses/by-nc-sa/4.0/deed.zh">CC BY-NC-SA 4.0</a>.
+        </li>
+    </ul>
+</div>
+
+                </div>
+            
+
+            
+                <ul class="post-tags-box">
+                    
+                        <li class="tag-item">
+                            <a href="/tags/%E6%B7%B1%E5%BA%A6%E5%AD%A6%E4%B9%A0/">#深度学习</a>&nbsp;
+                        </li>
+                    
+                        <li class="tag-item">
+                            <a href="/tags/GPU/">#GPU</a>&nbsp;
+                        </li>
+                    
+                </ul>
+            
+
+            
+
+            
+                <div class="article-nav">
+                    
+                        <div class="article-prev">
+                            <a class="prev"
+                            rel="prev"
+                            href="/2023/06/09/TensorRT%E5%8A%A0%E9%80%9F%E6%A8%A1%E5%9E%8B/"
+                            >
+                                <span class="left arrow-icon flex-center">
+                                    <i class="fa-solid fa-chevron-left"></i>
+                                </span>
+                                <span class="title flex-center">
+                                    <span class="post-nav-title-item">TensorRT加速模型</span>
+                                    <span class="post-nav-item">Prev posts</span>
+                                </span>
+                            </a>
+                        </div>
+                    
+                    
+                        <div class="article-next">
+                            <a class="next"
+                            rel="next"
+                            href="/2023/04/30/SSD%E7%9B%AE%E6%A0%87%E6%A3%80%E6%B5%8B/"
+                            >
+                                <span class="title flex-center">
+                                    <span class="post-nav-title-item">SSD目标检测</span>
+                                    <span class="post-nav-item">Next posts</span>
+                                </span>
+                                <span class="right arrow-icon flex-center">
+                                    <i class="fa-solid fa-chevron-right"></i>
+                                </span>
+                            </a>
+                        </div>
+                    
+                </div>
+            
+
+
+            
+                <div class="comment-container">
+                    <div class="comments-container">
+    <div id="comment-anchor"></div>
+    <div class="comment-area-title">
+        <i class="fa-solid fa-comments"></i>&nbsp;Comments
+    </div>
+    
+
+        
+            
+ 
+    <div id="waline"></div>
+    <script type="module"  data-pjax>
+        import { init } from 'https://evan.beee.top/js/waline.mjs';
+
+        function loadWaline() {
+            init({
+                el: '#waline',
+                serverURL: 'https://example.example.com',
+                lang: 'zh-CN',
+                dark: 'body[class~="dark-mode"]',
+                requiredMeta: ['nick','mail'], // cannot customize by theme config, change it yourself
+            });
+        }
+
+        if ('true') {
+            const loadWalineTimeout = setTimeout(() => {
+                loadWaline();
+                clearTimeout(loadWalineTimeout);
+            }, 1000);
+        } else {
+            window.addEventListener('DOMContentLoaded', loadWaline);
+        }
+        
+    </script>
+
+
+
+        
+    
+</div>
+
+                </div>
+            
+        </div>
+
+        
+            <div class="toc-content-container">
+                <div class="post-toc-wrap">
+    <div class="post-toc">
+        <div class="toc-title">On this page</div>
+        <div class="page-title">多GPU训练</div>
+        <ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#torch-distributed"><span class="nav-text">torch.distributed</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%A4%9AGPU%E4%BF%9D%E5%AD%98%E6%A8%A1%E5%9E%8B"><span class="nav-text">多GPU保存模型</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E4%BD%BF%E7%94%A8%E5%A4%9A%E5%8D%A1%E8%AE%AD%E7%BB%83%E5%8D%95%E5%8D%A1%E5%8A%A0%E8%BD%BD%E6%97%B6%E4%BD%BF%E7%94%A8%E4%B8%8B%E9%9D%A2%E7%9A%84%E4%BF%9D%E5%AD%98%E6%96%B9%E5%BC%8F%EF%BC%9A"><span class="nav-text">使用多卡训练单卡加载时使用下面的保存方式：</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E4%BD%BF%E7%94%A8%E5%A4%9A%E5%8D%A1%E8%AE%AD%E7%BB%83%E6%97%B6%E5%8A%A0%E8%BD%BD%E5%8D%95%E5%8D%A1%E8%AE%AD%E7%BB%83%E4%BF%9D%E5%AD%98%E7%9A%84%E6%A8%A1%E5%9E%8B%E5%8F%82%E6%95%B0%EF%BC%9A"><span class="nav-text">使用多卡训练时加载单卡训练保存的模型参数：</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E6%8A%A5%E9%94%99"><span class="nav-text">报错</span></a></li></ol>
+
+    </div>
+</div>
+            </div>
+        
+    </div>
+</div>
+
+
+                
+
+            </div>
+            
+            
+
+        </div>
+
+        <div class="main-content-footer">
+            <footer class="footer">
+    <div class="info-container">
+        <div class="copyright-info">
+            &copy;
+            
+              <span>2023</span>
+              -
+            
+            2024&nbsp;&nbsp;<i class="fa-solid fa-heart fa-beat" style="--fa-animation-duration: 0.5s; color: #f54545"></i>&nbsp;&nbsp;<a href="/">Tong</a>
+        </div>
+        
+            <script async data-pjax src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+            <div class="website-count info-item">
+                
+                    <span id="busuanzi_container_site_uv" class="busuanzi_container_site_uv">
+                        VISITOR COUNT&nbsp;<span id="busuanzi_value_site_uv" class="busuanzi_value_site_uv"></span>
+                    </span>
+                
+                
+                    <span id="busuanzi_container_site_pv" class="busuanzi_container_site_pv">
+                        TOTAL PAGE VIEWS&nbsp;<span id="busuanzi_value_site_pv" class="busuanzi_value_site_pv"></span>
+                    </span>
+                
+            </div>
+        
+        <div class="theme-info info-item">
+            <span class="powered-by-container">POWERED BY <?xml version="1.0" encoding="utf-8"?><!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.1//EN" "http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd"><svg version="1.1" id="圖層_1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px" width="1rem" height="1rem" viewBox="0 0 512 512" enable-background="new 0 0 512 512" xml:space="preserve"><path fill="#0E83CD" d="M256.4,25.8l-200,115.5L56,371.5l199.6,114.7l200-115.5l0.4-230.2L256.4,25.8z M349,354.6l-18.4,10.7l-18.6-11V275H200v79.6l-18.4,10.7l-18.6-11v-197l18.5-10.6l18.5,10.8V237h112v-79.6l18.5-10.6l18.5,10.8V354.6z"/></svg><a target="_blank" href="https://hexo.io">Hexo</a></span>
+                <br>
+            <span class="theme-version-container">THEME&nbsp;<a class="theme-version" target="_blank" href="https://github.com/EvanNotFound/hexo-theme-redefine">Redefine v2.1.3</a>
+        </div>
+        
+        
+        
+            <div id="start_div" style="display:none">
+                2023/4/30 12:00:00
+            </div>
+            <div>
+                Blog up for <span class="odometer" id="runtime_days" ></span> days <span class="odometer" id="runtime_hours"></span> hrs <span class="odometer" id="runtime_minutes"></span> Min <span class="odometer" id="runtime_seconds"></span> Sec
+            </div>
+        
+        
+        
+            <script async data-pjax>
+                try {
+                    function odometer_init() {
+                    const elements = document.querySelectorAll('.odometer');
+                    elements.forEach(el => {
+                        new Odometer({
+                            el,
+                            format: '( ddd).dd',
+                            duration: 200
+                        });
+                    });
+                    }
+                    odometer_init();
+                } catch (error) {}
+            </script>
+        
+        
+        
+    </div>  
+</footer>
+        </div>
+    </div>
+
+    
+        <div class="post-tools">
+            <div class="post-tools-container">
+    <ul class="article-tools-list">
+        <!-- TOC aside toggle -->
+        
+            <li class="right-bottom-tools page-aside-toggle">
+                <i class="fa-regular fa-outdent"></i>
+            </li>
+        
+
+        <!-- go comment -->
+        
+            <li class="go-comment">
+                <i class="fa-regular fa-comments"></i>
+            </li>
+        
+    </ul>
+</div>
+
+        </div>
+    
+
+    <div class="right-side-tools-container">
+        <div class="side-tools-container">
+    <ul class="hidden-tools-list">
+        <li class="right-bottom-tools tool-font-adjust-plus flex-center">
+            <i class="fa-regular fa-magnifying-glass-plus"></i>
+        </li>
+
+        <li class="right-bottom-tools tool-font-adjust-minus flex-center">
+            <i class="fa-regular fa-magnifying-glass-minus"></i>
+        </li>
+
+        <li class="right-bottom-tools tool-expand-width flex-center">
+            <i class="fa-regular fa-expand"></i>
+        </li>
+
+        <li class="right-bottom-tools tool-dark-light-toggle flex-center">
+            <i class="fa-regular fa-moon"></i>
+        </li>
+
+        <!-- rss -->
+        
+
+        
+
+        <li class="right-bottom-tools tool-scroll-to-bottom flex-center">
+            <i class="fa-regular fa-arrow-down"></i>
+        </li>
+    </ul>
+
+    <ul class="visible-tools-list">
+        <li class="right-bottom-tools toggle-tools-list flex-center">
+            <i class="fa-regular fa-cog fa-spin"></i>
+        </li>
+        
+            <li class="right-bottom-tools tool-scroll-to-top flex-center">
+                <i class="arrow-up fas fa-arrow-up"></i>
+                <span class="percent"></span>
+            </li>
+        
+        
+    </ul>
+</div>
+
+    </div>
+
+    <div class="image-viewer-container">
+    <img src="">
+</div>
+
+
+    
+
+
+</main>
+
+
+
+<script src="//npm.elemecdn.com/hexo-theme-redefine@2.1.3/source/js/utils.js"></script><script src="//npm.elemecdn.com/hexo-theme-redefine@2.1.3/source/js/main.js"></script><script src="//npm.elemecdn.com/hexo-theme-redefine@2.1.3/source/js/layouts/navbarShrink.js"></script><script src="//npm.elemecdn.com/hexo-theme-redefine@2.1.3/source/js/tools/scrollTopBottom.js"></script><script src="//npm.elemecdn.com/hexo-theme-redefine@2.1.3/source/js/tools/lightDarkSwitch.js"></script>
+
+
+
+
+    <script src="//npm.elemecdn.com/hexo-theme-redefine@2.1.3/source/js/tools/codeBlock.js"></script>
+
+
+
+    <script src="//npm.elemecdn.com/hexo-theme-redefine@2.1.3/source/js/layouts/lazyload.js"></script>
+
+
+
+    <script src="//npm.elemecdn.com/hexo-theme-redefine@2.1.3/source/js/tools/runtime.js"></script>
+    <script src="//npm.elemecdn.com/hexo-theme-redefine@2.1.3/source/js/layouts/odometer.min.js"></script>
+    <link rel="stylesheet" href="//npm.elemecdn.com/hexo-theme-redefine@2.1.3/source/assets/odometer-theme-minimal.css">
+
+
+
+  <script src="//npm.elemecdn.com/hexo-theme-redefine@2.1.3/source/js/libs/Typed.min.js"></script>
+  <script src="//npm.elemecdn.com/hexo-theme-redefine@2.1.3/source/js/plugins/typed.js"></script>
+
+
+
+
+
+
+
+<div class="post-scripts pjax">
+    
+        <script src="//npm.elemecdn.com/hexo-theme-redefine@2.1.3/source/js/tools/tocToggle.js"></script><script src="//npm.elemecdn.com/hexo-theme-redefine@2.1.3/source/js/libs/anime.min.js"></script><script src="//npm.elemecdn.com/hexo-theme-redefine@2.1.3/source/js/layouts/toc.js"></script><script src="//npm.elemecdn.com/hexo-theme-redefine@2.1.3/source/js/plugins/tabs.js"></script>
+    
+</div>
+
+
+    <script src="//npm.elemecdn.com/hexo-theme-redefine@2.1.3/source/js/libs/pjax.min.js"></script>
+<script>
+    window.addEventListener('DOMContentLoaded', () => {
+        window.pjax = new Pjax({
+            selectors: [
+                'head title',
+                '.page-container',
+                '.pjax',
+            ],
+            history: true,
+            debug: false,
+            cacheBust: false,
+            timeout: 0,
+            analytics: false,
+            currentUrlFullReload: false,
+            scrollRestoration: false,
+            // scrollTo: true,
+        });
+
+        document.addEventListener('pjax:send', () => {
+            Global.utils.pjaxProgressBarStart();
+        });
+
+        document.addEventListener('pjax:complete', () => {
+            Global.utils.pjaxProgressBarEnd();
+            window.pjax.executeScripts(document.querySelectorAll('script[data-pjax], .pjax script'));
+            Global.refresh();
+        });
+    });
+</script>
+
+
+
+
+</body>
+</html>
