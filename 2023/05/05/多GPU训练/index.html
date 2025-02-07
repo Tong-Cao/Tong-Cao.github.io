@@ -30,7 +30,7 @@
 <meta property="og:description" content="torch.distributed12345678910111213141516171819202122232425from torch.utils.data.distributed import DistributedSampler# 1) 初始化torch.distributed.init_process_group(backend&#x3D;&quot;nccl&quot;)# 2） 配置每个进程的g">
 <meta property="og:locale" content="en_US">
 <meta property="article:published_time" content="2023-05-05T10:05:07.000Z">
-<meta property="article:modified_time" content="2023-11-18T06:00:30.081Z">
+<meta property="article:modified_time" content="2025-02-07T05:46:57.712Z">
 <meta property="article:author" content="John Doe">
 <meta property="article:tag" content="深度学习">
 <meta property="article:tag" content="GPU">
@@ -220,8 +220,8 @@
     
         <span class="article-date article-meta-item">
             <i class="fa-regular fa-wrench"></i>&nbsp;
-            <span class="desktop">2023-11-18 14:30</span>
-            <span class="mobile">2023-11-18 14</span>
+            <span class="desktop">2025-02-07 13:46:57</span>
+            <span class="mobile">2025-02-07 13:46</span>
             <span class="hover-info">Updated</span>
         </span>
     
@@ -305,7 +305,7 @@
 <div class="highlight-container" data-rel="Python"><figure class="iseeu highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">torch.save(model.state_dict(), PATH)</span><br></pre></td></tr></table></figure></div>
 
 <p>加载参数：</p>
-<div class="highlight-container" data-rel="Python"><figure class="iseeu highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">os.environ[<span class="string">&#x27;CUDA_VISIBLE_DEVICES&#x27;</span>] = <span class="string">&#x27;0&#x27;</span>   <span class="comment">#这里替换成希望使用的GPU编号</span></span><br><span class="line">loaded_dict = torch.load(PATH)</span><br><span class="line">model = mymodel() <span class="comment"># 初始化模型</span></span><br><span class="line">model = nn.DataParallel(model).cuda() <span class="comment"># 往model里面添加module</span></span><br><span class="line">model.state_dict = loaded_dict</span><br></pre></td></tr></table></figure></div>
+<div class="highlight-container" data-rel="Python"><figure class="iseeu highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">os.environ[<span class="string">&#x27;CUDA_VISIBLE_DEVICES&#x27;</span>] = <span class="string">&#x27;0&#x27;</span>   <span class="comment">#这里替换成希望使用的GPU编号</span></span><br><span class="line">loaded_dict = torch.load(PATH)</span><br><span class="line">model = mymodel() <span class="comment"># 初始化模型</span></span><br><span class="line">model = nn.DataParallel(model).cuda() <span class="comment"># 往model里面添加module</span></span><br><span class="line">model.load_state_dict(loaded_dict)</span><br></pre></td></tr></table></figure></div>
 </li>
 <li><p>方法3：使用正常保存方式，遍历字典去除module</p>
 <div class="highlight-container" data-rel="Python"><figure class="iseeu highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">from</span> collections <span class="keyword">import</span> OrderedDict</span><br><span class="line">os.environ[<span class="string">&#x27;CUDA_VISIBLE_DEVICES&#x27;</span>] = <span class="string">&#x27;0&#x27;</span>   <span class="comment">#这里替换成希望使用的GPU编号</span></span><br><span class="line"></span><br><span class="line">loaded_dict = torch.load(save_dir)</span><br><span class="line"></span><br><span class="line">new_state_dict = OrderedDict()</span><br><span class="line"><span class="keyword">for</span> k, v <span class="keyword">in</span> loaded_dict.items():</span><br><span class="line">    name = k[<span class="number">7</span>:] <span class="comment"># module字段在最前面，从第7个字符开始就可以去掉module</span></span><br><span class="line">    new_state_dict[name] = v <span class="comment">#新字典的key值对应的value一一对应</span></span><br><span class="line"></span><br><span class="line">model = mymodel() <span class="comment"># 初始化模型</span></span><br><span class="line">model.state_dict = new_state_dict <span class="comment"># 如果发现不能正常导入之前的参数（不会报错，所以需要看网络的输出是否和之前训练的结果一样） 将此行代码改为 ：model.load_state_dict(new_state_dict)</span></span><br><span class="line">model = model.cuda()</span><br></pre></td></tr></table></figure></div></li>
@@ -333,7 +333,7 @@
         <li><strong>Created at:</strong> 2023-05-05 18:05:07</li>
         
             <li>
-                <strong>Updated at:</strong> 2023-11-18 14:00:30
+                <strong>Updated at:</strong> 2025-02-07 13:46:57
             </li>
         
         <li>
@@ -482,7 +482,7 @@
               <span>2023</span>
               -
             
-            2024&nbsp;&nbsp;<i class="fa-solid fa-heart fa-beat" style="--fa-animation-duration: 0.5s; color: #f54545"></i>&nbsp;&nbsp;<a href="/">Tong</a>
+            2025&nbsp;&nbsp;<i class="fa-solid fa-heart fa-beat" style="--fa-animation-duration: 0.5s; color: #f54545"></i>&nbsp;&nbsp;<a href="/">Tong</a>
         </div>
         
             <script async data-pjax src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
